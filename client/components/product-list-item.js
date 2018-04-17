@@ -1,13 +1,13 @@
 import React from 'react';
 
 const ProductListItem = (props) => {
-  const { product } = props.product;
+  const product = props.product;
 
   return (
     <div>
-      <h3>Name: {product.name}</h3>
-      <img src={product.imageUrl} />
-      <p>{product.description}</p>
+      <h3>Name: {product && product.name}</h3>
+      <img src={product && product.imageUrl} />
+      <p>{product && product.description}</p>
     </div>
   );
 };
