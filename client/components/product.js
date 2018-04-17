@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 
-const productComponent = (props) => {
+export const productComponent = (props) => {
   const product = props.products.find(prod => Number(prod.id) === Number(props.match.params.id));
 
   return (
