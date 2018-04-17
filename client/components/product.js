@@ -1,5 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import {withRouter} from 'react-router-dom';
 
 const productComponent = (props) => {
   const product = props.products.find(id => id === props.match.params.id);
@@ -23,4 +24,4 @@ const productComponent = (props) => {
 
 const mapStateToProps = (state) => ({ products: state.products })
 
-export default connect(mapStateToProps)(productComponent);
+export default withRouter(connect(mapStateToProps)(productComponent));
