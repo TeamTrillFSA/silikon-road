@@ -5,11 +5,13 @@ import ProductListItem from './product-list-item';
 const productList = (props) => {
   console.log('ENTERED THE LIST')
   return (
-    <div>
+    <div className="productList" >
     { props.products.map(product => <ProductListItem key={product.id} product={product} />) }
     </div>
   );
 }
+
+
 
 
 const mapStateToProps = (state) => ({ products: state.products });
