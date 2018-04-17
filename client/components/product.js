@@ -3,15 +3,18 @@ import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 
 const productComponent = (props) => {
-  const product = props.products.find(id => id === props.match.params.id);
+  console.log('products: ', props.products)
+  const product = props.products.find(prod => Number(prod.id) === Number(props.match.params.id));
+  console.log('product:', product);
 
   return (
     <div>
       <div>
-        <h1>{product.name}</h1>
-        <h3>Price: {product.price}</h3>
+        <h1>{product && product.name}</h1>
+        <h3>Price: {product && product.price}</h3>
+        <img src={product && product.imageUrl} />
         <br />
-        <p>Description: {product.description}</p>
+        <p>Description: {product && product.description}</p>
         <button>Buy</button>
       </div>
       <hr />
