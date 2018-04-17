@@ -3,9 +3,7 @@ import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 
 const productComponent = (props) => {
-  console.log('products: ', props.products)
   const product = props.products.find(prod => Number(prod.id) === Number(props.match.params.id));
-  console.log('product:', product);
 
   return (
     <div>
@@ -23,8 +21,8 @@ const productComponent = (props) => {
       </div>
     </div>
   );
-}
+};
 
-const mapStateToProps = (state) => ({ products: state.products })
+const mapStateToProps = (state) => ({ products: state.products });
 
 export default withRouter(connect(mapStateToProps)(productComponent));
