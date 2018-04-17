@@ -4,12 +4,19 @@ const ProductListItem = (props) => {
   const product = props.product;
 
   return (
-    <div>
+    <div style={listItemStyle} >
       <h3>Name: {product && product.name}</h3>
-      <img src={product && product.imageUrl} />
       <p>{product && product.description}</p>
     </div>
   );
 };
+
+const listItemStyle = {
+  backgroundColor: '#BBB',
+  display: 'inline-grid',
+  width: '200px',
+  height: '200px',
+  gridGap: '50px'
+}
 
 export default ProductListItem;
