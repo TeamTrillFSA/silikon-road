@@ -1,4 +1,5 @@
 import React from 'react';
+import {connect} from 'react-redux';
 
 const productComponent = (props) => {
   const product = props.products.find(id => id === props.match.params.id);
@@ -19,3 +20,7 @@ const productComponent = (props) => {
     </div>
   );
 }
+
+const mapStateToProps = (state) => ({ products: state.products })
+
+export default connect(mapStateToProps)(productComponent);
