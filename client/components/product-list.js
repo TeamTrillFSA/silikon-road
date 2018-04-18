@@ -6,7 +6,7 @@ const productList = (props) => {
   console.log('ENTERED THE LIST')
   return (
     <div className="productList" >
-    { props.products.map(product => <ProductListItem key={product.id} product={product} />) }
+    { props.products && props.products.map(product => <ProductListItem key={product.id} product={product} />) }
     </div>
   );
 }
