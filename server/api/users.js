@@ -1,8 +1,8 @@
-const router = require('express').Router()
-const {User} = require('../db/models')
-module.exports = router
+const router = require('express').Router();
+const {User} = require('../db/models');
+const {checkConditionMiddleware, adminConditionFunc} = require('./utils');
 
-router.get('/', (req, res, next) => {
+router.get('/', checkConditionMiddleware([adminConditionFunc]), (req, res, next) => {
   User.findAll({
     // explicitly select only the id and email fields - even though
     // users' passwords are encrypted, it won't help if we just
@@ -10,5 +10,7 @@ router.get('/', (req, res, next) => {
     attributes: ['id', 'email']
   })
     .then(users => res.json(users))
-    .catch(next)
+    .catch(next);
 })
+
+module.exports = router;
