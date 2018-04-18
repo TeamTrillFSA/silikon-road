@@ -20,14 +20,10 @@ describe('User routes', () => {
       })
     })
 
-    it('GET /api/users', () => {
+    it('GET /api/users returns 401 Forbidden', () => {
       return request(app)
         .get('/api/users')
-        .expect(200)
-        .then(res => {
-          expect(res.body).to.be.an('array')
-          expect(res.body[0].email).to.be.equal(codysEmail)
-        })
+        .expect(401)
     })
   }) // end describe('/api/users')
 }) // end describe('User routes')
