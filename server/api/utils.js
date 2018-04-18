@@ -1,4 +1,4 @@
-export const checkConditionMiddleware = (conditionFuncs) => (req, res, next) => {
+const checkConditionMiddleware = (conditionFuncs) => (req, res, next) => {
   const finalCondition = conditionFuncs.map(conditionFunc => conditionFunc(req)).reduce((prev, curr) => prev && curr, true);
 
   if (finalCondition) {
@@ -8,4 +8,9 @@ export const checkConditionMiddleware = (conditionFuncs) => (req, res, next) => 
   }
 };
 
-export const adminConditionFunc = (req) => req.user && req.user.isAdmin;
+const adminConditionFunc = (req) => req.user && req.user.isAdmin;
+
+module.exports = {
+  checkConditionMiddleware,
+  adminConditionFunc
+};
