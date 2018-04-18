@@ -1,19 +1,9 @@
 //const db = require('../db');
-const { Order, Product, User } = require('./models');
+const { Order, Product, User, OrderProduct } = require('./models');
 
 function seedDb () {
   Order.create({
-    status: 'CART',
-    billingAddrName: 'Jeff Gore',
-    billingAddrStreet: '625 Heron Bay Dr',
-    billingAddrCity: 'Orlando',
-    billingAddrState: 'FL',
-    billingAddrZIP: '32825',
-    shippingAddrName: 'Jeff Gore',
-    shippingAddrStreet: '1825 Mountain St.',
-    shippingAddrCity: 'Philadelphia',
-    shippingAddrState: 'PA',
-    shippingAddrZIP: '19122'
+    status: 'CART'
   })
   .then( () => {
     Product.create({
@@ -22,7 +12,12 @@ function seedDb () {
         description: 'This thing will kill you, but in a good way.'
       })
       .then( product => {
-        product.addOrder(1);
+        OrderProduct.create({
+          productId: product.id,
+          orderId: 1,
+          quantity: 1,
+          price: product.price
+        })
       })
   })
   .then( () => {
@@ -32,7 +27,12 @@ function seedDb () {
         description: 'Amazeballs awaits! Feast your eyes.'
       })
       .then( product => {
-        product.addOrder(1);
+        OrderProduct.create({
+          productId: product.id,
+          orderId: 1,
+          quantity: 2,
+          price: product.price
+        })
       })
   })
   .then( () => {
@@ -57,6 +57,14 @@ function seedDb () {
       password: 'fred',
       isGuest: false
     })
+  })
+  .then( () => {
+    Order.findById(1)
+      .then( order => {
+        order.update({
+          status: 'PROCESSING'
+        })
+      })
   })
 }
 
