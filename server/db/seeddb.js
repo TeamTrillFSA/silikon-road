@@ -1,5 +1,5 @@
 //const db = require('../db');
-const { Order, Product } = require('./models');
+const { Order, Product, User } = require('./models');
 
 function seedDb () {
   Order.create({
@@ -48,6 +48,15 @@ function seedDb () {
         price: 400000,
         description: 'The mother of all motherboards.'
       })
+  })
+  .then( () => {
+    User.create({
+      firstName: 'Fred',
+      lastName: 'Ma',
+      email: 'fred@fred.fred',
+      password: 'fred',
+      isGuest: false
+    })
   })
 }
 
