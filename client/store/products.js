@@ -32,7 +32,7 @@ export const fetchAllProducts = () =>
       .catch(err => console.log(err))
 
 
-      /**
+/**
  * REDUCER
  */
 export default function (state = initialState, action) {
