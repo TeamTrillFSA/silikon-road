@@ -1,16 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const ProductListItem = (props) => {
-  const product = props.product;
-
+const ProductListItem = ({ product }) => {
   return (
     <div className="productListItem">
     <Link to={`/products/${product.id}`}>
-      <h3>{product && product.name}</h3>
-      <img src={product && product.imageUrl} height='100' width='100' />
-      <p>{product && product.description}</p>
-      </Link>
+      <h3>{product.name}</h3>
+      <span>Price: {product.price}</span>
+      <img src={product.imageUrl} height="100" width="100" />
+      <p>Description: {product.description}</p>
+    </Link>
     </div>
   );
 };
