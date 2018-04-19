@@ -32,5 +32,18 @@ describe('Product routes', () => {
           expect(res.body[0].description).to.be.equal(description);
         })
     })
+
+    it('GET /api/products/:id', () => {
+      return request(app)
+        .get('/api/products/1')
+        .expect(200)
+        .then(res => {
+          expect(res.body).to.be.an('object');
+          expect(res.body.name).to.be.equal(name);
+          expect(res.body.price).to.be.equal(price);
+          expect(res.body.imageUrl).to.be.equal(imageUrl);
+          expect(res.body.description).to.be.equal(description);
+        })
+    })
   }) // end describe('/api/products')
 }) // end describe('Product routes')
