@@ -4,10 +4,13 @@ import {withRouter} from 'react-router-dom';
 
 export class productComponent extends Component {
 
+  constructor(props) {
+    super(props);
+    this.quantities = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  }
+  
   render () {
-
-    const product = this.props.products.find(prod => Number(prod.id) === Number(this.props.match.params.id));
-
+    const product = this.props.product;
     return (
       <div>
         <div>
@@ -18,16 +21,9 @@ export class productComponent extends Component {
           <p>Description: {product && product.description}</p>
           <form>
             <select name="quantity">
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
-              <option>6</option>
-              <option>7</option>
-              <option>8</option>
-              <option>9</option>
-              <option>10</option>
+              { this.quantities.map( quantity => {
+                return <option key={quantity}>{quantity}</option>
+              })}
             </select>
             <button onClick={this.handleClick}>Add to cart</button>
           </form>
@@ -41,8 +37,8 @@ export class productComponent extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({ 
-  products: state.products,
+const mapStateToProps = (state, ownProps) => ({ 
+  product: state.products.find(prod => Number(prod.id) === Number(ownProps.match.params.id)),
   user: state.user,
   cartId: state.user.orders && state.user.orders[state.user.orders.length - 1].status === 'CART' ? state.user.orders[state.user.orders.length - 1].id : 0
 });

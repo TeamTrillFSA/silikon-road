@@ -63,14 +63,6 @@ function seedDb () {
   .then( (resUser) => {
     firstOrder.setUser(resUser)
   })
-  // .then( () => {
-  //   Order.findById(1)
-  //     .then( order => {
-  //       order.update({
-  //         status: 'PROCESSING'
-  //       })
-  //     })
-  // })
 }
 
 module.exports = seedDb;

@@ -20,7 +20,7 @@ router.post('/', (req, res, next) => {
   Order.create({
     userId: req.user
   })
-    .then( order => {
+    .then(order => {
       return OrderProduct.create({
         orderId: order.id,
         productId: req.body.productId,
