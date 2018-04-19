@@ -4,21 +4,6 @@ import {withRouter} from 'react-router-dom';
 
 export class productComponent extends Component {
 
-  constructor(props) {
-    super(props);
-    this.handleClick = this.handleClick.bind(this);
-  }
-
-  handleClick(event) {
-    if (this.props.cartId) {
-      //add to the current cart
-      // orderProduct put route
-    } else {
-      // make a cart and add it
-    }
-    console.log(event.target)
-  }
-
   render () {
 
     const product = this.props.products.find(prod => Number(prod.id) === Number(this.props.match.params.id));

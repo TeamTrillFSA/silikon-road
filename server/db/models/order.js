@@ -16,16 +16,4 @@ const Order = db.define('order', {
   },
 });
 
-Order.afterUpdate(order => {
-  if (order.status === 'PROCESSING') {
-    OrderProduct.findAll({
-      where: {
-        orderId: order.id
-      }
-    })
-    // order.getProducts() // This works!
-    //   .then( products => console.log(products) )
-  }
-})
-
 module.exports = Order;
