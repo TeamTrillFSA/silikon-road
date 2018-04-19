@@ -2,10 +2,12 @@
 const { Order, Product, User, OrderProduct } = require('./models');
 
 function seedDb () {
+  let firstOrder;
   Order.create({
     status: 'CART'
   })
-  .then( () => {
+  .then( (order) => {
+    firstOrder = order;
     Product.create({
         name: 'Killer GPU',
         price: 300000,
@@ -50,13 +52,16 @@ function seedDb () {
       })
   })
   .then( () => {
-    User.create({
+    return User.create({
       firstName: 'Fred',
       lastName: 'Ma',
       email: 'fred@fred.fred',
       password: 'fred',
       isGuest: false
     })
+  })
+  .then( (resUser) => {
+    firstOrder.setUser(resUser)
   })
   .then( () => {
     Order.findById(1)
