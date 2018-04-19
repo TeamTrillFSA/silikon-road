@@ -7,6 +7,7 @@ const Address = require('./address');
 /// ASSOCIATIONS
 
 Order.belongsTo(User);
+User.hasMany(Order);
 Order.belongsTo(Address);
 Address.belongsTo(User);
 Order.belongsToMany(Product, {through: OrderProduct});

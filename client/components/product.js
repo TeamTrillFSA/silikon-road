@@ -13,7 +13,7 @@ export const productComponent = (props) => {
         <img src={product && product.imageUrl} />
         <br />
         <p>Description: {product && product.description}</p>
-        <button>Buy</button>
+        <button>Add to cart</button>
       </div>
       <hr />
       <div>
@@ -23,6 +23,6 @@ export const productComponent = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({ products: state.products });
+const mapStateToProps = (state) => ({ products: state.products, user: state.user });
 
 export default withRouter(connect(mapStateToProps)(productComponent));
