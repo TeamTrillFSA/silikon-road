@@ -1,28 +1,25 @@
 //const db = require('../db');
-const { Order, Product, User } = require('./models');
+const { Order, Product, User, OrderProduct } = require('./models');
 
 function seedDb () {
+  let firstOrder;
   Order.create({
-    status: 'CART',
-    billingAddrName: 'Jeff Gore',
-    billingAddrStreet: '625 Heron Bay Dr',
-    billingAddrCity: 'Orlando',
-    billingAddrState: 'FL',
-    billingAddrZIP: '32825',
-    shippingAddrName: 'Jeff Gore',
-    shippingAddrStreet: '1825 Mountain St.',
-    shippingAddrCity: 'Philadelphia',
-    shippingAddrState: 'PA',
-    shippingAddrZIP: '19122'
+    status: 'CART'
   })
-  .then( () => {
+  .then( (order) => {
+    firstOrder = order;
     Product.create({
         name: 'Killer GPU',
         price: 300000,
         description: 'This thing will kill you, but in a good way.'
       })
       .then( product => {
-        product.addOrder(1);
+        OrderProduct.create({
+          productId: product.id,
+          orderId: 1,
+          quantity: 1,
+          price: product.price
+        })
       })
   })
   .then( () => {
@@ -32,7 +29,12 @@ function seedDb () {
         description: 'Amazeballs awaits! Feast your eyes.'
       })
       .then( product => {
-        product.addOrder(1);
+        OrderProduct.create({
+          productId: product.id,
+          orderId: 1,
+          quantity: 2,
+          price: product.price
+        })
       })
   })
   .then( () => {
@@ -50,13 +52,16 @@ function seedDb () {
       })
   })
   .then( () => {
-    User.create({
+    return User.create({
       firstName: 'Fred',
       lastName: 'Ma',
       email: 'fred@fred.fred',
       password: 'fred',
       isGuest: false
     })
+  })
+  .then( (resUser) => {
+    firstOrder.setUser(resUser)
   })
 }
 
