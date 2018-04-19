@@ -8,10 +8,5 @@ router.post('/', (req, res, next) => {
     .catch(next)
 });
 
-router.get('/:productId', (req, res, next) => {
-  Product.findById(req.params.productId)
-  .then(product => res.json(product))
-  .catch(next);
-});
 
 module.exports = router;
