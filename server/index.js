@@ -97,11 +97,7 @@ const startListening = () => {
   require('./socket')(io)
 }
 
-const syncDb = () => db.sync({force: true})
-  // Seeding DB in lieu of a seed file
-  .then( () => {
-    require('./db/seeddb')();
-  })
+const syncDb = () => db.sync()
 
 // This evaluates as true when this file is run directly from the command line,
 // i.e. when we say 'node server/index.js' (or 'nodemon server/index.js', or 'nodemon server', etc)

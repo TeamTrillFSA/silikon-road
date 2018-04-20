@@ -3,10 +3,6 @@ const Sequelize = require('sequelize');
 const db = require('../db');
 
 const Address = db.define('address', {
-  name: {
-    type: Sequelize.STRING,
-    allowNull: false
-  },
   street: {
     type: Sequelize.STRING,
     allowNull: false
@@ -27,7 +23,5 @@ const Address = db.define('address', {
     }
   }
 });
-
-// Still needs instance methods such as .getTotalOrderValue()
 
 module.exports = Address;
