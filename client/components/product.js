@@ -29,8 +29,6 @@ export class productComponent extends Component {
   
   render () {
     const product = this.props.product;
-    console.log(">>>>>>>", this.props);
-    console.log()
     return (
       <div>
         <div>
@@ -39,7 +37,7 @@ export class productComponent extends Component {
           <img src={product && product.imageUrl} />
           <br />
           <p>Description: {product && product.description}</p>
-          <form onSubmit={() => this.props.handleSubmit(this.props.product.price, this.props.user.id, this.props.product.id)}>
+          <form onSubmit={(event) => this.props.handleSubmit(event, this.props.product.price, this.props.user.id, this.props.product.id)}>
             <select name="quantity">
               { this.quantities.map( quantity => {
                 return <option key={quantity}>{quantity}</option>
@@ -65,8 +63,9 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = dispatch => {
   return {
-    handleSubmit(price, orderId, productId) {
-      const quantity = 1;
+    handleSubmit(event, price, orderId, productId) {
+      event.preventDefault();
+      const quantity = Number(event.target[0].value);
       dispatch(postProd_OrderThunker(price, quantity, orderId, productId))
     }
   }
