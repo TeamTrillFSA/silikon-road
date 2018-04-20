@@ -4,20 +4,8 @@ const faker = require('faker')
 const { Order, Product, User, OrderProduct, Address } = require('../server/db/models');
 
 // This will be the basis for a quasi-random assortment of orders.
-const statuses = [
-  'CART',
-  'PROCESSING',
-  'CART',
-  'CART',
-  'SHIPPED',
-  'COMPLETE',
-  'CART',
-  'CART',
-  'CANCELLED',
-  'CART',
-  'CART',
-  'CART'
-]
+const statuses = Array(12);
+statuses.fill('CART', 0, 12);
 
 // Create one admin user:
 const users = [{
