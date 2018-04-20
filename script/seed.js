@@ -3,7 +3,21 @@ const db = require('../server/db')
 const faker = require('faker')
 const { Order, Product, User, OrderProduct } = require('../server/db/models');
 
-const statuses = ['CART', 'PROCESSING', 'CART', 'CART', 'SHIPPED', 'COMPLETE', 'CART', 'CART', 'CANCELLED', 'CART', 'CART', 'CART']
+const statuses = [
+  'CART',
+  'PROCESSING',
+  'CART',
+  'CART',
+  'SHIPPED',
+  'COMPLETE',
+  'CART',
+  'CART',
+  'CANCELLED',
+  'CART',
+  'CART',
+  'CART'
+]
+
 const users = [];
 
 for (let i = 0; i < 12; i++) {
@@ -62,18 +76,85 @@ const products = [
 ];
 
 const orderProducts = [
-  {
+  // 
+  // ,
+  // 
+  // 
+  // ,
+  // ,
+  // 
+  // 
+  // 
+  // 'CART',
+  // 'CART',
+  // 'CART'
+
+  { // 'CART'
     productId: 2,
     orderId: 1,
     quantity: 1,
     price: null
   },
   {
+    productId: 3,
+    orderId: 1,
+    quantity: 1,
+    price: null
+  },
+  { // 'PROCESSING'
     productId: 4,
     orderId: 2,
     quantity: 2,
+    price: 20000
+  },
+  { // 'CART'
+    productId: 8,
+    orderId: 3,
+    quantity: 1,
     price: null
-  }
+  },
+  { // 'CART'
+    productId: 7,
+    orderId: 4,
+    quantity: 1,
+    price: null
+  },
+  { // 'SHIPPED'
+    productId: 5,
+    orderId: 5,
+    quantity: 1,
+    price: 200000
+  },
+  { // 'COMPLETE'
+    productId: 2,
+    orderId: 6,
+    quantity: 3,
+    price: 200000
+  },
+  { // 'CART'
+    productId: 8,
+    orderId: 7,
+    quantity: 1,
+    price: null
+  },
+  {
+    productId: 1,
+    orderId: 7,
+    quantity: 2,
+    price: null
+  },
+  { // 'CART'
+    productId: 1,
+    orderId: 8,
+    quantity: 2,
+    price: null
+  },
+  { // 'CANCELLED'
+    productId: 3,
+    orderId: 9,
+    quantity: 1,
+    price: 100000
+  },  
 ]
 
 function seed () {
