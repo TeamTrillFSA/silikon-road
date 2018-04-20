@@ -1,34 +1,42 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
+import {ProductList} from './product-list';
 
 /**
  * COMPONENT
  */
-export const UserHome = (props) => {
-  const {email} = props
-
+export const UserHome = ({newProducts, saleProducts}) => {
   return (
     <div>
-      <h3>Welcome, {email}</h3>
+      <div id="newProducts">
+        <h1 className="headertext">Hot off the Dark Web</h1>
+        <ProductList products={newProducts} />
+      </div>
+      <div id="saleProducts">
+        <h1 className="headertext">Pennies on the Dollar</h1>
+        <ProductList products={saleProducts} />
+      </div>
     </div>
-  )
+  );
 }
 
 /**
  * CONTAINER
  */
-const mapState = (state) => {
+const mapStateToProps = (state) => {
   return {
-    email: state.user.email
+    newProducts: state.products,
+    saleProducts: state.products
   }
 }
 
-export default connect(mapState)(UserHome)
+export default connect(mapStateToProps)(UserHome);
 
 /**
  * PROP TYPES
  */
 UserHome.propTypes = {
-  email: PropTypes.string
+  newProducts: PropTypes.array,
+  saleProducts: PropTypes.array
 }
