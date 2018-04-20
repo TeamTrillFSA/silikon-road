@@ -1,16 +1,36 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
+import axios from 'axios';
+import { postProd_OrderThunker } from '../store';
 
 export class productComponent extends Component {
 
   constructor(props) {
     super(props);
     this.quantities = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    //this.handleClick = this.handleClick.bind(this);
   }
+
+  // handleClick(event) {
+  //   event.preventDefault();
+  //   // Is this^ line necessary?
+  //   if (this.props.cartId) {
+  //     //add to the current cart
+  //     // orderProduct put route
+  //     props.dispatch()
+  //     // axios.post('/api/order_product')
+  //     // .catch(err => console.log(err))
+  //   } else {
+  //     // make a cart and add it
+  //   }
+  //   console.log(event.target)
+  // }
   
   render () {
     const product = this.props.product;
+    console.log(">>>>>>>", this.props);
+    console.log()
     return (
       <div>
         <div>
@@ -19,13 +39,13 @@ export class productComponent extends Component {
           <img src={product && product.imageUrl} />
           <br />
           <p>Description: {product && product.description}</p>
-          <form>
+          <form onSubmit={() => this.props.handleSubmit(this.props.product.price, this.props.user.id, this.props.product.id)}>
             <select name="quantity">
               { this.quantities.map( quantity => {
                 return <option key={quantity}>{quantity}</option>
               })}
             </select>
-            <button onClick={this.handleClick}>Add to cart</button>
+            <button type="submit">Add to cart</button>
           </form>
         </div>
         <hr />
@@ -43,4 +63,13 @@ const mapStateToProps = (state, ownProps) => ({
   cartId: state.user.orders && state.user.orders[state.user.orders.length - 1].status === 'CART' ? state.user.orders[state.user.orders.length - 1].id : 0
 });
 
-export default withRouter(connect(mapStateToProps)(productComponent));
+const mapDispatchToProps = dispatch => {
+  return {
+    handleSubmit(price, orderId, productId) {
+      const quantity = 1;
+      dispatch(postProd_OrderThunker(price, quantity, orderId, productId))
+    }
+  }
+};
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(productComponent));
