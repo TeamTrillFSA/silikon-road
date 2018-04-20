@@ -1,8 +1,9 @@
 
 const db = require('../server/db')
 const faker = require('faker')
-const { Order, Product, User, OrderProduct } = require('../server/db/models');
+const { Order, Product, User, OrderProduct, Address } = require('../server/db/models');
 
+// This will be the basis for a quasi-random assortment of orders.
 const statuses = [
   'CART',
   'PROCESSING',
@@ -18,9 +19,18 @@ const statuses = [
   'CART'
 ]
 
-const users = [];
+// Create one admin user:
+const users = [{
+  firstName: 'Fred',
+  lastName: 'Ma',
+  email: 'fred@silikonroad.com',
+  password: 'fred',
+  isGuest: false,
+  isAdmin: true
+}];
 
-for (let i = 0; i < 12; i++) {
+// Create a dozen additional users; half "true" users with accounts; the other half guest users.
+for (let i = 0; i < 6; i++) {
   const firstName = faker.name.firstName();
   const lastName = faker.name.lastName();
   users.push({
@@ -29,6 +39,24 @@ for (let i = 0; i < 12; i++) {
     email: firstName + '.' + lastName + '@gmail.com',
     password: 'fred',
     isGuest: false
+  })
+  users.push({
+    firstName: 'GUEST',
+    lastName: 'USER',
+    email: null,
+    password: 'fred',
+    isGuest: true
+  })
+}
+
+const addresses = [];
+
+for (let i = 0; i < 12; i++) {
+  addresses.push({
+    street: faker.address.streetAddress(),
+    city: faker.address.city(),
+    state: faker.address.state(),
+    zip: faker.address.zipCode().slice(0, 5)
   })
 }
 
@@ -75,21 +103,10 @@ const products = [
   },
 ];
 
-const orderProducts = [
-  // 
-  // ,
-  // 
-  // 
-  // ,
-  // ,
-  // 
-  // 
-  // 
-  // 'CART',
-  // 'CART',
-  // 'CART'
+// We assume that all orders past the 'CART' status have been purchased and will have a final purchase price. Otherwise the price is null and will not be set until purchase.
 
-  { // 'CART'
+const orderProducts = [
+  {
     productId: 2,
     orderId: 1,
     quantity: 1,
@@ -101,37 +118,37 @@ const orderProducts = [
     quantity: 1,
     price: null
   },
-  { // 'PROCESSING'
+  {
     productId: 4,
     orderId: 2,
     quantity: 2,
-    price: 20000
+    price: null
   },
-  { // 'CART'
+  {
     productId: 8,
     orderId: 3,
     quantity: 1,
     price: null
   },
-  { // 'CART'
+  {
     productId: 7,
     orderId: 4,
     quantity: 1,
     price: null
   },
-  { // 'SHIPPED'
+  {
     productId: 5,
     orderId: 5,
     quantity: 1,
-    price: 200000
+    price: null
   },
-  { // 'COMPLETE'
+  {
     productId: 2,
     orderId: 6,
     quantity: 3,
-    price: 200000
+    price: null
   },
-  { // 'CART'
+  {
     productId: 8,
     orderId: 7,
     quantity: 1,
@@ -143,18 +160,36 @@ const orderProducts = [
     quantity: 2,
     price: null
   },
-  { // 'CART'
+  {
     productId: 1,
     orderId: 8,
     quantity: 2,
     price: null
   },
-  { // 'CANCELLED'
+  {
     productId: 3,
     orderId: 9,
     quantity: 1,
-    price: 100000
-  },  
+    price: null
+  },
+  {
+    productId: 6,
+    orderId: 10,
+    quantity: 1,
+    price: null
+  },
+  {
+    productId: 3,
+    orderId: 11,
+    quantity: 1,
+    price: null
+  },
+  {
+    productId: 8,
+    orderId: 12,
+    quantity: 2,
+    price: null
+  },
 ]
 
 function seed () {
@@ -162,6 +197,11 @@ function seed () {
     .then( () => {
       return Promise.all(users.map( user => {
         return User.create(user);
+      }))
+    })
+    .then( () => {
+      return Promise.all(addresses.map( address => {
+        return Address.create(address);
       }))
     })
     .then( () => {
@@ -175,6 +215,12 @@ function seed () {
       let i = 1;
       return Promise.all(orders.map( order => {
         return order.setUser(i++)
+      }));
+    })
+    .then( orders => {
+      let i = 1;
+      return Promise.all(orders.map( order => {
+        return order.setAddress(i++)
       }));
     })
     .then( () => {
