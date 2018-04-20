@@ -2,9 +2,13 @@
 
 import {expect} from 'chai';
 import React from 'react';
-import enzyme, {shallow} from 'enzyme';
+import enzyme, {render, shallow} from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import {UserHome} from './user-home';
+
+import {MemoryRouter} from 'react-router';
+const history = require('history');
+const historyObj = history.createMemoryHistory();
 
 const adapter = new Adapter();
 enzyme.configure({adapter});
@@ -35,11 +39,11 @@ describe('UserHome', () => {
       description: 'The mother of all motherboards.'
     }];
 
-    userHome = shallow(<UserHome newProducts={products} saleProducts={products} />);
+    userHome = render(<MemoryRouter><UserHome newProducts={products} saleProducts={products} /></MemoryRouter>);
   })
 
   it('renders two ProductLists', () => {
-    console.log('html: ', userHome.html());
-    expect(userHome.find('h1')).to.have.length(2);
+    expect(userHome.find('div.productList')).to.have.length(2);
+    expect(userHome.find('div.productListItem')).to.have.length(8);
   })
 })
