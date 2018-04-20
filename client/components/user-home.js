@@ -26,8 +26,8 @@ export const UserHome = ({newProducts, saleProducts}) => {
  */
 const mapStateToProps = (state) => {
   return {
-    newProducts: state.products,
-    saleProducts: state.products
+    newProducts: state.products.filter(product => product.tags.includes('new')),
+    saleProducts: state.products.filter(product => product.tags.includes('sale'))
   }
 }
 
