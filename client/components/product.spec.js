@@ -32,19 +32,19 @@ describe('Product', () => {
 
         let productData, productWrapper, match;
         beforeEach('Create <Product /> wrapper', () => {
-            productData = [{
+            productData = {
                 id: 6,
                 name: 'ProductName',
                 price: 8,
                 description: 'Product Description',
                 imageUrl: 'myImage.png'
-            }];
+            };
             match = {
               params: {
                 id: 6
               }
             }
-            productWrapper = shallow(<Product products={productData} match={match} />);
+            productWrapper = shallow(<Product product={productData} match={match} />);
         });
 
         it('includes "Product Name" line as an h1', () => {
@@ -64,14 +64,14 @@ describe('Product', () => {
         });
 
         it('is not hardcoded', () => {
-            const aDifferentProduct = [{
+            const aDifferentProduct = {
                 id: 6,
                 name: 'ProductNameV2',
                 price: 10,
                 description: 'Product Description 2',
                 imageUrl: 'myImage2.png'
-            }];
-            const differentProductWrapper = shallow(<Product products={aDifferentProduct} match={match} />);
+            };
+            const differentProductWrapper = shallow(<Product product={aDifferentProduct} match={match} />);
             expect(differentProductWrapper.find('h1').text()).to.equal('ProductNameV2');
             expect(differentProductWrapper.find('h3').text()).to.equal('Price: 10');
             expect(differentProductWrapper.find('img').html()).to.equal('<img src="myImage2.png"/>');
