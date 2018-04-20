@@ -1,36 +1,117 @@
-/**
- * Welcome to the seed file! This seed file uses a newer language feature called...
- *
- *                  -=-= ASYNC...AWAIT -=-=
- *
- * Async-await is a joy to use! Read more about it in the MDN docs:
- *
- * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function
- *
- * Now that you've got the main idea, check it out in practice below!
- */
+
 const db = require('../server/db')
-const {User} = require('../server/db/models')
+const faker = require('faker')
+const { Order, Product, User, OrderProduct } = require('../server/db/models');
 
-async function seed () {
-  await db.sync({force: true})
-  console.log('db synced!')
-  // Whoa! Because we `await` the promise that db.sync returns, the next line will not be
-  // executed until that promise resolves!
+const statuses = ['CART', 'PROCESSING', 'CART', 'CART', 'SHIPPED', 'COMPLETE', 'CART', 'CART', 'CANCELLED', 'CART', 'CART', 'CART']
+const users = [];
 
-  const users = await Promise.all([
-    User.create({email: 'cody@email.com', password: '123'}),
-    User.create({email: 'murphy@email.com', password: '123'})
-  ])
-  // Wowzers! We can even `await` on the right-hand side of the assignment operator
-  // and store the result that the promise resolves to in a variable! This is nice!
-  console.log(`seeded ${users.length} users`)
-  console.log(`seeded successfully`)
+for (let i = 0; i < 12; i++) {
+  const firstName = faker.name.firstName();
+  const lastName = faker.name.lastName();
+  users.push({
+    firstName,
+    lastName,
+    email: firstName + '.' + lastName + '@gmail.com',
+    password: 'fred',
+    isGuest: false
+  })
 }
 
-// Execute the `seed` function
-// `Async` functions always return a promise, so we can use `catch` to handle any errors
-// that might occur inside of `seed`
+const products = [
+  {
+    name: 'Killer GPU',
+    price: 300000,
+    description: 'This thing will kill you, but in a good way.'
+  },
+  {
+    name: 'Black Magic Monitor',
+    price: 200000,
+    description: 'Amazeballs awaits! Feast your eyes.'
+  },
+  {
+    name: '$lave RAM',
+    price: 100000,
+    description: 'Tons of memory, all day, every day.'
+  },
+  {
+    name: 'Boingo Motherboard',
+    price: 400000,
+    description: 'The mother of all motherboards.'
+  },
+  {
+    name: 'Overclocked AF Grafixxx Card',
+    price: 200000,
+    description: 'Beware, this thing is beasty.'
+  },
+  {
+    name: 'North Korean Nuclear Warhead Chip',
+    price: 2000000,
+    description: 'No joke!'
+  },
+  {
+    name: 'Google Self-Driving Car Motherboard',
+    price: 1000000,
+    description: 'This thing is pretty smart.'
+  },
+  {
+    name: 'NASA Mission Control Backup Mainframe',
+    price: 7000000,
+    description: 'Impress your friends.'
+  },
+];
+
+const orderProducts = [
+  {
+    productId: 2,
+    orderId: 1,
+    quantity: 1,
+    price: null
+  },
+  {
+    productId: 4,
+    orderId: 2,
+    quantity: 2,
+    price: null
+  }
+]
+
+function seed () {
+  return db.sync({force: true})
+    .then( () => {
+      return Promise.all(users.map( user => {
+        return User.create(user);
+      }))
+    })
+    .then( () => {
+      return Promise.all(statuses.map( status => {
+        return Order.create({
+          status
+        });
+      }));
+    })
+    .then( orders => {
+      let i = 1;
+      return Promise.all(orders.map( order => {
+        return order.setUser(i++)
+      }));
+    })
+    .then( () => {
+      return Promise.all(products.map( product => {
+        return Product.create(product);
+      }));
+    })
+    .then( () => {
+      return Promise.all(orderProducts.map(orderProduct => {
+        return OrderProduct.create(orderProduct);
+      }));
+    })
+    .catch( err => {
+      console.error(err);
+    });
+}
+
+
 seed()
   .catch(err => {
     console.error(err.message)
@@ -43,9 +124,6 @@ seed()
     console.log('db connection closed')
   })
 
-/*
- * note: everything outside of the async function is totally synchronous
- * The console.log below will occur before any of the logs that occur inside
- * of the async function
- */
 console.log('seeding...')
+
+module.exports = seed;
