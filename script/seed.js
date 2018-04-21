@@ -54,13 +54,13 @@ const products = [
     name: 'Killer GPU',
     price: 300000,
     description: 'This thing will kill you, but in a good way.',
-    tags: ['sale'],
+    tags: ['sale', 'gamer'],
   },
   {
     name: 'Black Magic Monitor',
     price: 200000,
     description: 'Amazeballs awaits! Feast your eyes.',
-    tags: ['sale'],
+    tags: ['sale', 'gamer'],
   },
   {
     name: '$lave RAM',
@@ -84,7 +84,7 @@ const products = [
     name: 'North Korean Nuclear Warhead Chip',
     price: 2000000,
     description: 'No joke!',
-    tags: ['new'],
+    tags: ['new', 'superillegal'],
   },
   {
     name: 'Google Self-Driving Car Motherboard',
@@ -96,7 +96,7 @@ const products = [
     name: 'NASA Mission Control Backup Mainframe',
     price: 7000000,
     description: 'Impress your friends.',
-    tags: ['new'],
+    tags: ['new', 'superillegal'],
   },
 ];
 
@@ -202,8 +202,6 @@ async function seed() {
 
   i = 1;
   await Promise.all(orders.map(order => { return order.setUser(i++); }));
-  i = 1;
-  await Promise.all(orders.map(order => { return order.setAddress(i++); }));
 
   await Promise.all(products.map(product => { return Product.create(product); }));
   await Promise.all(orderProducts.map(orderProduct => {
