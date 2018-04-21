@@ -24,9 +24,7 @@ export class productComponent extends Component {
           <p>Description: {product && product.description}</p>
           <form onSubmit={(event) => this.props.handleSubmit(event, this.props.product.price, this.props.user.id, this.props.product.id)}>
             <select name="quantity">
-              {this.quantities.map(quantity => {
-                return <option key={quantity}>{quantity}</option>;
-              })}
+              {this.quantities.map(quantity => <option key={quantity}>{quantity}</option>)}
             </select>
             <button type="submit">Add to cart</button>
           </form>
