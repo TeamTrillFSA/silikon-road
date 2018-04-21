@@ -40,15 +40,12 @@ for (let i = 0; i < 6; i++) {
 
 const addresses = [];
 
-const tagList = ['new', 'sale'];
-
 for (let i = 0; i < 12; i++) {
   addresses.push({
     street: faker.address.streetAddress(),
     city: faker.address.city(),
     state: faker.address.state(),
     zip: faker.address.zipCode().slice(0, 5),
-    tags: tagList[faker.random.number({ min: 0, max: tagList.length - 1 })],
   });
 }
 
