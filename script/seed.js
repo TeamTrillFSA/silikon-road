@@ -38,12 +38,15 @@ for (let i = 0; i < 6; i++) {
 
 const addresses = [];
 
+const tagList = ['new', 'sale'];
+
 for (let i = 0; i < 12; i++) {
   addresses.push({
     street: faker.address.streetAddress(),
     city: faker.address.city(),
     state: faker.address.state(),
     zip: faker.address.zipCode().slice(0, 5),
+    tags: tagList[faker.random.number({ min: 0, max: tagList.length - 1 })],
   });
 }
 
@@ -52,41 +55,49 @@ const products = [
     name: 'Killer GPU',
     price: 300000,
     description: 'This thing will kill you, but in a good way.',
+    tags: ['sale'],
   },
   {
     name: 'Black Magic Monitor',
     price: 200000,
     description: 'Amazeballs awaits! Feast your eyes.',
+    tags: ['sale'],
   },
   {
     name: '$lave RAM',
     price: 100000,
     description: 'Tons of memory, all day, every day.',
+    tags: ['sale'],
   },
   {
     name: 'Boingo Motherboard',
     price: 400000,
     description: 'The mother of all motherboards.',
+    tags: ['sale'],
   },
   {
     name: 'Overclocked AF Grafixxx Card',
     price: 200000,
     description: 'Beware, this thing is beasty.',
+    tags: ['new'],
   },
   {
     name: 'North Korean Nuclear Warhead Chip',
     price: 2000000,
     description: 'No joke!',
+    tags: ['new'],
   },
   {
     name: 'Google Self-Driving Car Motherboard',
     price: 1000000,
     description: 'This thing is pretty smart.',
+    tags: ['new'],
   },
   {
     name: 'NASA Mission Control Backup Mainframe',
     price: 7000000,
     description: 'Impress your friends.',
+    tags: ['new'],
   },
 ];
 
@@ -181,6 +192,29 @@ const orderProducts = [
   },
 ];
 
+async function seed() {
+  let i;
+
+  await db.sync({ force: true });
+
+  await Promise.all(users.map(user => { return User.create(user); }));
+  await Promise.all(addresses.map(address => { return Address.create(address); }));
+  const orders = await Promise.all(statuses.map(status => { return Order.create(status); }));
+
+  i = 1;
+  await Promise.all(orders.map(order => { return order.setUser(i++); }));
+  i = 1;
+  await Promise.all(orders.map(order => { return order.setAddress(i++); }));
+
+  await Promise.all(products.map(product => { return Product.create(product); }));
+  await Promise.all(orderProducts.map(orderProduct => {
+    return OrderProduct.create(orderProduct);
+  }));
+
+  console.log(`seeded successfully`);
+}
+
+/*
 function seed() {
   return db.sync({ force: true })
     .then(() => {
@@ -226,7 +260,7 @@ function seed() {
       console.error(err);
     });
 }
-
+*/
 
 seed()
   .catch(err => {
