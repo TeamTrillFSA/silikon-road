@@ -15,6 +15,7 @@
     "jsx-a11y/anchor-is-valid": "off",
     "jsx-a11y/alt-text": "off",
     "no-param-reassign": "off",
+    "react/jsx-filename-extension": "off",
     "react/prop-types": [0],
     "react/forbid-prop-types": [0],
     "react/require-default-props": [0]
