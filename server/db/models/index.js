@@ -4,7 +4,7 @@ const Order = require('./order');
 const OrderProduct = require('./order_product');
 const Address = require('./address');
 
-/// ASSOCIATIONS
+// ASSOCIATIONS
 
 Order.belongsTo(User);
 User.hasMany(Order);
@@ -30,5 +30,5 @@ module.exports = {
   Product,
   Order,
   OrderProduct,
-  Address
-}
+  Address,
+};

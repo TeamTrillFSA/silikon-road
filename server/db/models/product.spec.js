@@ -1,17 +1,18 @@
+/* global describe beforeEach it */
+
 const chai = require('chai');
-const chaiAsPromised = require("chai-as-promised");
-chai.use(chaiAsPromised);
-const assert = chai.assert;
-
+const chaiAsPromised = require('chai-as-promised');
 const db = require('../index');
-const Product = db.model('product');
 
-const {ValidationError} = require('sequelize');
+chai.use(chaiAsPromised);
+const { assert } = chai;
+const Product = db.model('product');
+const { ValidationError } = require('sequelize');
 
 describe('Product model', () => {
   describe('validations', () => {
     beforeEach(() => {
-      return db.sync({force: true});
+      return db.sync({ force: true });
     });
 
     it('throws an error if name is empty', () => {
@@ -28,7 +29,7 @@ describe('Product model', () => {
 
     it('if no url is given the default url is "http://www.agecomputer.org/images/computerhappy.png"', () => {
       return Product.create({ name: 'Name', price: 10, description: 'description' })
-        .then(product => assert.equal(product.imageUrl, 'http://www.agecomputer.org/images/computerhappy.png'))
+        .then(product => assert.equal(product.imageUrl, 'http://www.agecomputer.org/images/computerhappy.png'));
     });
 
     it('throws an error if name is not unique', () => {
