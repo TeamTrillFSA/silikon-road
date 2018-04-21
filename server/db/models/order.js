@@ -1,7 +1,7 @@
 
 const Sequelize = require('sequelize');
 const db = require('../db');
-const OrderProduct = require('./order_product')
+const OrderProduct = require('./order_product');
 
 const Order = db.define('order', {
   status: {
@@ -10,9 +10,9 @@ const Order = db.define('order', {
       'PROCESSING',
       'SHIPPED',
       'COMPLETE',
-      'CANCELLED'
+      'CANCELLED',
     ),
-    defaultValue: 'CART'
+    defaultValue: 'CART',
   },
 });
 

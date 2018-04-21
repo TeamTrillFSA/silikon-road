@@ -1,14 +1,17 @@
-import {expect} from 'chai';
+/* global describe beforeEach it */
+
+import { expect } from 'chai';
 import React from 'react';
-import enzyme, {shallow} from 'enzyme';
+import enzyme, { shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import ProductListItem from './product-list-item';
 
 const adapter = new Adapter();
-enzyme.configure({adapter});
+enzyme.configure({ adapter });
 
 describe('ProductList', () => {
-  let prodListItemWrapper, product;
+  let prodListItemWrapper;
+  let product;
 
   beforeEach(() => {
     product = { id: 1, name: 'ProductName', price: 8, imageUrl: 'http://www.agecomputer.org/images/computerhappy.png', description: 'Product Description' };
@@ -16,18 +19,18 @@ describe('ProductList', () => {
   });
 
   it('includes "Product Name" line as an h3', () => {
-      expect(prodListItemWrapper.find('h3').text()).to.equal('ProductName');
+    expect(prodListItemWrapper.find('h3').text()).to.equal('ProductName');
   });
 
   it('includes "Price" line as span', () => {
-      expect(prodListItemWrapper.find('span').text()).to.equal('Price: 8');
+    expect(prodListItemWrapper.find('span').text()).to.equal('Price: 8');
   });
 
   it('includes "Image" line as img', () => {
-      expect(prodListItemWrapper.find('img').html()).to.equal('<img src="http://www.agecomputer.org/images/computerhappy.png" height="100" width="100"/>');
+    expect(prodListItemWrapper.find('img').html()).to.equal('<img src="http://www.agecomputer.org/images/computerhappy.png" height="100" width="100"/>');
   });
 
   it('includes "Description" as p', () => {
-      expect(prodListItemWrapper.find('p').text()).to.equal('Description: Product Description');
+    expect(prodListItemWrapper.find('p').text()).to.equal('Description: Product Description');
   });
-})
+});

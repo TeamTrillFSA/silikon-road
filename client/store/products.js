@@ -1,5 +1,4 @@
-import axios from 'axios'
-//import history from '../history'
+import axios from 'axios';
 
 /**
  * ACTION TYPES
@@ -16,9 +15,8 @@ const initialState = [];
  */
 export const getAllProducts = products => ({
   type: GET_ALL_PRODUCTS,
-  products
-})
-
+  products,
+});
 
 /**
  * THUNK CREATORS
@@ -29,7 +27,7 @@ export const fetchAllProducts = () =>
     axios.get('/api/products')
       .then(res =>
         dispatch(getAllProducts(res.data)))
-      .catch(err => console.log(err))
+      .catch(err => console.error(err));
 
 
 /**
@@ -38,8 +36,8 @@ export const fetchAllProducts = () =>
 export default function (state = initialState, action) {
   switch (action.type) {
     case GET_ALL_PRODUCTS:
-      return action.products
+      return action.products;
     default:
-      return state
+      return state;
   }
 }

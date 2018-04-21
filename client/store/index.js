@@ -1,5 +1,3 @@
-/* eslint-disable camelcase */
-
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import createLogger from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
@@ -11,7 +9,7 @@ import order_product from './order_product';
 const reducer = combineReducers({ user, products, order_product });
 const middleware = composeWithDevTools(applyMiddleware(
   thunkMiddleware,
-  createLogger({ collapsed: true })
+  createLogger({ collapsed: true }),
 ));
 const store = createStore(reducer, middleware);
 

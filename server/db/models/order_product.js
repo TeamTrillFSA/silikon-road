@@ -7,8 +7,8 @@ const OrderProduct = db.define('order_product', {
   },
   quantity: {
     type: Sequelize.INTEGER,
-    allowNull: false
-  }
+    allowNull: false,
+  },
 });
 
 module.exports = OrderProduct;
