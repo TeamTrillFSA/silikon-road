@@ -10,11 +10,10 @@ const Address = db.model('address');
 const { ValidationError } = require('sequelize');
 
 describe('Address model', () => {
+  beforeEach(() => {
+    return db.sync({ force: true });
+  });
   describe('validations', () => {
-    beforeEach(() => {
-      return db.sync({ force: true });
-    });
-
     it('throws an error if street name is empty', () => {
       return assert.isRejected(Address.create({
         city: 'Orlando',
@@ -54,6 +53,18 @@ describe('Address model', () => {
         state: 'FL',
         zip: '0281',
       }), ValidationError);
+    });
+  });
+
+  describe('associations', () => {
+    it('has a userId column, meaning Address belongs to User', () => {
+      return Address.create({
+        street: '625 Heron Bay Dr',
+        city: 'Orlando',
+        state: 'FL',
+        zip: '32825',
+      })
+        .then(address => assert.equal(address.userId, null));
     });
   });
 });
