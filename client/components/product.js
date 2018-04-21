@@ -9,24 +9,8 @@ export class productComponent extends Component {
   constructor(props) {
     super(props);
     this.quantities = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-    //this.handleClick = this.handleClick.bind(this);
   }
 
-  // handleClick(event) {
-  //   event.preventDefault();
-  //   // Is this^ line necessary?
-  //   if (this.props.cartId) {
-  //     //add to the current cart
-  //     // orderProduct put route
-  //     props.dispatch()
-  //     // axios.post('/api/order_product')
-  //     // .catch(err => console.log(err))
-  //   } else {
-  //     // make a cart and add it
-  //   }
-  //   console.log(event.target)
-  // }
-  
   render () {
     const product = this.props.product;
     return (
