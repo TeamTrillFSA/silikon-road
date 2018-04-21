@@ -42,7 +42,7 @@ for (let i = 0; i < 12; i++) {
   addresses.push({
     street: faker.address.streetAddress(),
     city: faker.address.city(),
-    state: faker.address.state(),
+    state: faker.address.stateAbbr(),
     zip: faker.address.zipCode().slice(0, 5),
   });
 }
@@ -221,6 +221,16 @@ function seed() {
       return Promise.all(orderProducts.map(orderProduct => {
         return OrderProduct.create(orderProduct);
       }));
+    })
+    .then(() => {
+      return User.create({
+        firstName: 'tom',
+        lastName: 'tom',
+        email: 'tom@tom.tom',
+        password: 'tom',
+        isGuest: false,
+        isAdmin: false,
+      })
     })
     .catch(err => {
       console.error(err);
