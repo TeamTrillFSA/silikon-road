@@ -6,7 +6,7 @@ import { ProductList } from './product-list';
 /**
  * COMPONENT
  */
-export const UserHome = ({ newProducts, saleProducts }) => {
+export const Home = ({ newProducts, saleProducts }) => {
   return (
     <div>
       <div id="newProducts">
@@ -31,12 +31,12 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(UserHome);
+export default connect(mapStateToProps)(Home);
 
 /**
  * PROP TYPES
  */
-UserHome.propTypes = {
+Home.propTypes = {
   newProducts: PropTypes.array,
   saleProducts: PropTypes.array,
 };

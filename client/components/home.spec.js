@@ -6,14 +6,13 @@ import React from 'react';
 import enzyme, { render } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import { MemoryRouter } from 'react-router';
-import { UserHome } from './user-home';
-import history from '../history';
+import { Home } from './home';
 
 const adapter = new Adapter();
 enzyme.configure({ adapter });
 
-describe('UserHome', () => {
-  let userHome;
+describe('Home', () => {
+  let home;
 
   beforeEach(() => {
     const products = [{
@@ -37,12 +36,11 @@ describe('UserHome', () => {
       imageUrl: 'http://www.agecomputer.org/images/computerhappy.png',
       description: 'The mother of all motherboards.',
     }];
-
-    userHome = render(<MemoryRouter><UserHome newProducts={products} saleProducts={products} /></MemoryRouter>);
+    home = render(<MemoryRouter><Home newProducts={products} saleProducts={products} /></MemoryRouter>);
   });
 
   it('renders two ProductLists', () => {
-    expect(userHome.find('div.productList')).to.have.length(2);
-    expect(userHome.find('div.productListItem')).to.have.length(8);
+    expect(home.find('div.productList')).to.have.length(2);
+    expect(home.find('div.productListItem')).to.have.length(8);
   });
 });
