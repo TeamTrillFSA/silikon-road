@@ -1,5 +1,3 @@
-import { isNull } from 'util';
-
 /* global describe beforeEach it */
 
 const chai = require('chai');
@@ -12,7 +10,6 @@ const Order = db.model('order');
 const { DatabaseError } = require('sequelize');
 
 describe('Order model', () => {
-
   beforeEach(() => {
     return db.sync({ force: true });
   });
