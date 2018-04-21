@@ -1,46 +1,39 @@
-const {expect} = require('chai');
+/* global describe beforeEach it */
+
+const chai = require('chai');
+const chaiAsPromised = require('chai-as-promised');
 const db = require('../index');
+
+chai.use(chaiAsPromised);
+const { assert } = chai;
 const Product = db.model('product');
+const { ValidationError } = require('sequelize');
 
 describe('Product model', () => {
   describe('validations', () => {
     beforeEach(() => {
-      return db.sync({force: true});
+      return db.sync({ force: true });
     });
 
-    it('throws an error if name is empty', (done) => {
-      Product.create()
-        .then(() => expect(true).to.be.equal(false))
-        .catch(err => expect(err.name).to.be.equal('SequelizeValidationError'))
-        .finally(done);
+    it('throws an error if name is empty', () => {
+      return assert.isRejected(Product.create(), ValidationError);
     });
 
-    it('throws an error if price is empty', (done) => {
-      Product.create({ name: 'Name' })
-        .then(() => expect(true).to.be.equal(false))
-        .catch(err => expect(err.name).to.be.equal('SequelizeValidationError'))
-        .finally(done);
+    it('throws an error if price is empty', () => {
+      return assert.isRejected(Product.create({ name: 'Name' }), ValidationError);
     });
 
-    it('throws an error if description is empty', (done) => {
-      Product.create({ name: 'Name', price: 10 })
-        .then(() => expect(true).to.be.equal(false))
-        .catch(err => expect(err.name).to.be.equal('SequelizeValidationError'))
-        .finally(done);
+    it('throws an error if description is empty', () => {
+      return assert.isRejected(Product.create({ name: 'Name', price: 10 }), ValidationError);
     });
 
-    it('if no url is given the default url is "http://www.agecomputer.org/images/computerhappy.png"', (done) => {
-      Product.create({ name: 'Name', price: 10, description: 'description' })
-        .then(product => expect(product.imageUrl).to.be.equal('http://www.agecomputer.org/images/computerhappy.png'))
-        .finally(done);
+    it('if no url is given the default url is "http://www.agecomputer.org/images/computerhappy.png"', () => {
+      return Product.create({ name: 'Name', price: 10, description: 'description' })
+        .then(product => assert.equal(product.imageUrl, 'http://www.agecomputer.org/images/computerhappy.png'));
     });
 
-    it('throws an error if name is not unique', (done) => {
-      Product.create({ name: 'Name', price: 10, description: 'description' })
-        .then(() => Product.create({ name: 'Name' }))
-        .then(() => expect(true).to.be.equal(false))
-        .catch(err => expect(err.name).to.be.equal('SequelizeValidationError'))
-        .finally(done);
+    it('throws an error if name is not unique', () => {
+      return assert.isRejected(Product.create({ name: 'Name', price: 10, description: 'description' }).then(() => Product.create({ name: 'Name' })), ValidationError);
     });
   });
 });

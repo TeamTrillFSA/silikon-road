@@ -6,31 +6,32 @@ const Product = db.define('product', {
   name: {
     type: Sequelize.STRING,
     unique: true,
+    allowNull: false,
   },
   price: {
     type: Sequelize.INTEGER,
-    allowNull: false
+    allowNull: false,
   },
   description: {
     type: Sequelize.TEXT,
-    allowNull: false
+    allowNull: false,
   },
   imageUrl: {
     type: Sequelize.STRING,
-    defaultValue: 'http://www.agecomputer.org/images/computerhappy.png'
+    defaultValue: 'http://www.agecomputer.org/images/computerhappy.png',
   },
   tags: {
     type: Sequelize.ARRAY(Sequelize.TEXT),
-    set: function (value) {
-        if (toString.call(value).slice(8, -1) === 'String') {
-            const arrayOfTags = value.split(',').map(tag => tag.trim());
-            this.setDataValue('tags', arrayOfTags);
-        } else {
-            this.setDataValue('tags', value);
-        }
+    set(value) {
+      if (toString.call(value).slice(8, -1) === 'String') {
+        const arrayOfTags = value.split(',').map(tag => tag.trim());
+        this.setDataValue('tags', arrayOfTags);
+      } else {
+        this.setDataValue('tags', value);
+      }
     },
-    defaultValue: []
-  }
+    defaultValue: [],
+  },
 });
 
 module.exports = Product;

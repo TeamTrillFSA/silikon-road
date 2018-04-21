@@ -1,12 +1,12 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import {connect} from 'react-redux'
-import {ProductList} from './product-list';
+import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { ProductList } from './product-list';
 
 /**
  * COMPONENT
  */
-export const UserHome = ({newProducts, saleProducts}) => {
+export const UserHome = ({ newProducts, saleProducts }) => {
   return (
     <div>
       <div id="newProducts">
@@ -19,7 +19,7 @@ export const UserHome = ({newProducts, saleProducts}) => {
       </div>
     </div>
   );
-}
+};
 
 /**
  * CONTAINER
@@ -27,9 +27,9 @@ export const UserHome = ({newProducts, saleProducts}) => {
 const mapStateToProps = (state) => {
   return {
     newProducts: state.products.filter(product => product.tags.includes('new')),
-    saleProducts: state.products.filter(product => product.tags.includes('sale'))
-  }
-}
+    saleProducts: state.products.filter(product => product.tags.includes('sale')),
+  };
+};
 
 export default connect(mapStateToProps)(UserHome);
 
@@ -38,5 +38,5 @@ export default connect(mapStateToProps)(UserHome);
  */
 UserHome.propTypes = {
   newProducts: PropTypes.array,
-  saleProducts: PropTypes.array
-}
+  saleProducts: PropTypes.array,
+};
