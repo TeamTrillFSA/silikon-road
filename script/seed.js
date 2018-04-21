@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 const db = require('../server/db');
 const faker = require('faker');
 const { Order, Product, User, OrderProduct, Address } = require('../server/db/models');
@@ -211,56 +213,8 @@ async function seed() {
     return OrderProduct.create(orderProduct);
   }));
 
-  console.log(`seeded successfully`);
+  console.log('seeded successfully');
 }
-
-/*
-function seed() {
-  return db.sync({ force: true })
-    .then(() => {
-      return Promise.all(users.map(user => {
-        return User.create(user);
-      }));
-    })
-    .then(() => {
-      return Promise.all(addresses.map(address => {
-        return Address.create(address);
-      }));
-    })
-    .then(() => {
-      return Promise.all(statuses.map(status => {
-        return Order.create({
-          status,
-        });
-      }));
-    })
-    .then(orders => {
-      let i = 1;
-      return Promise.all(orders.map(order => {
-        return order.setUser(i++);
-      }));
-    })
-    .then(orders => {
-      let i = 1;
-      return Promise.all(orders.map(order => {
-        return order.setAddress(i++);
-      }));
-    })
-    .then(() => {
-      return Promise.all(products.map(product => {
-        return Product.create(product);
-      }));
-    })
-    .then(() => {
-      return Promise.all(orderProducts.map(orderProduct => {
-        return OrderProduct.create(orderProduct);
-      }));
-    })
-    .catch(err => {
-      console.error(err);
-    });
-}
-*/
 
 seed()
   .catch(err => {
