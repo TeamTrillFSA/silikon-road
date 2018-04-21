@@ -8,10 +8,14 @@ const Address = require('./address');
 
 Order.belongsTo(User);
 User.hasMany(Order);
+
 Order.belongsTo(Address);
 Address.belongsTo(User);
-Order.belongsToMany(Product, {through: OrderProduct});
-Product.belongsToMany(Order, {through: OrderProduct});
+
+Order.belongsToMany(Product, { through: OrderProduct });
+Product.belongsToMany(Order, { through: OrderProduct });
+
+Product.belongsTo(User);
 
 /**
  * We'll export all of our models here, so that any time a module needs a model,

@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
+import axios from 'axios';
+import { postProd_OrderThunker } from '../store';
 
 export class productComponent extends Component {
 
@@ -8,7 +10,7 @@ export class productComponent extends Component {
     super(props);
     this.quantities = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   }
-  
+
   render () {
     const product = this.props.product;
     return (
@@ -19,13 +21,13 @@ export class productComponent extends Component {
           <img src={product && product.imageUrl} />
           <br />
           <p>Description: {product && product.description}</p>
-          <form>
+          <form onSubmit={(event) => this.props.handleSubmit(event, this.props.product.price, this.props.user.id, this.props.product.id)}>
             <select name="quantity">
               { this.quantities.map( quantity => {
                 return <option key={quantity}>{quantity}</option>
               })}
             </select>
-            <button onClick={this.handleClick}>Add to cart</button>
+            <button type="submit">Add to cart</button>
           </form>
         </div>
         <hr />
@@ -43,4 +45,14 @@ const mapStateToProps = (state, ownProps) => ({
   cartId: state.user.orders && state.user.orders[state.user.orders.length - 1].status === 'CART' ? state.user.orders[state.user.orders.length - 1].id : 0
 });
 
-export default withRouter(connect(mapStateToProps)(productComponent));
+const mapDispatchToProps = dispatch => {
+  return {
+    handleSubmit(event, price, orderId, productId) {
+      event.preventDefault();
+      const quantity = Number(event.target[0].value);
+      dispatch(postProd_OrderThunker(price, quantity, orderId, productId))
+    }
+  }
+};
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(productComponent));
