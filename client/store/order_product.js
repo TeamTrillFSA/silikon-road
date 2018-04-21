@@ -24,7 +24,7 @@ export const postProductToOrder = joinObj => ({
 
 export const postProd_OrderThunker = (price, quantity, orderId, productId) =>
   dispatch =>
-    axios.post('/api/order_product', {price, quantity, orderId, productId})
+    axios.post('/api/order_product', { price, quantity, orderId, productId })
       .then(res =>
         dispatch(postProductToOrder(res.data))) //tried changing from res.data to just res
       .catch(err => console.log(err))

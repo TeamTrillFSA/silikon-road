@@ -12,8 +12,8 @@ User.hasMany(Order);
 Order.belongsTo(Address);
 Address.belongsTo(User);
 
-Order.belongsToMany(Product, {through: OrderProduct});
-Product.belongsToMany(Order, {through: OrderProduct});
+Order.belongsToMany(Product, { through: OrderProduct });
+Product.belongsToMany(Order, { through: OrderProduct });
 
 Product.belongsTo(User);
 
