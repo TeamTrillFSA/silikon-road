@@ -33,9 +33,7 @@ export class productComponent extends Component {
           }}
           >
             <select name="quantity">
-              {this.quantities.map(quantity => {
-                return <option key={quantity}>{quantity}</option>;
-              })}
+              {this.quantities.map(quantity => <option key={quantity}>{quantity}</option>)}
             </select>
             <button type="submit">Add to cart</button>
           </form>

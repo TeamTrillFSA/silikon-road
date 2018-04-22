@@ -1,5 +1,6 @@
 body {
   font-family: sans-serif;
+  background-image: url("http://res.cloudinary.com/dx1uhvlo8/image/upload/v1524178801/business-businessmen-classroom-267507_tkwv0f.jpg");
 }
 
 a {
@@ -20,7 +21,11 @@ form div {
   display: inline-block;
 }
 
-
+.headertext {
+  font-family: 'Do Hyeon', sans-serif;
+  text-align: center;
+  text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+}
 
 .productListItem {
   color: blue;
