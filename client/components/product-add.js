@@ -12,6 +12,8 @@ import {
 } from '../store';
 
 export const AddProduct = props => {
+  const nameTaken = props.productNames.includes(props.userInput.name.value);
+
   if (!props.user.id || props.user.isGuest) {
     return <p>You must be a registered user to add a product.</p>;
   }
@@ -27,7 +29,11 @@ export const AddProduct = props => {
             type="text"
             value={props.userInput.name.value}
             onChange={props.handleChange}
+            required
           />
+          { nameTaken ?
+            <span id="nameTaken">That product name has already been taken - please choose another.</span>
+            : null }
         </label>
         <label htmlFor="addProduct_input_price">
           Product Price
@@ -37,6 +43,7 @@ export const AddProduct = props => {
             type="text"
             value={props.userInput.price.value}
             onChange={props.handleChange}
+            required
           />
         </label>
         <label htmlFor="addProduct_input_desc">
@@ -47,6 +54,7 @@ export const AddProduct = props => {
             type="text"
             value={props.userInput.description.value}
             onChange={props.handleChange}
+            required
           />
         </label>
         <label htmlFor="addProduct_input_imageUrl">
@@ -57,9 +65,14 @@ export const AddProduct = props => {
             type="text"
             value={props.userInput.imageUrl.value}
             onChange={props.handleChange}
+            required
           />
         </label>
-        <button type="submit">Submit</button>
+        <button
+          type="submit"
+          disabled={nameTaken ? 'disabled' : false}
+        >Submit
+        </button>
       </form>
     </div>
   );
@@ -68,6 +81,7 @@ export const AddProduct = props => {
 const mapStateToProps = state => ({
   user: state.user,
   userInput: state.userInput.addProduct,
+  productNames: state.products.map(product => product.name),
 });
 
 const mapDispatchToProps = dispatch => ({
