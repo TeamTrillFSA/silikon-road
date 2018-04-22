@@ -50,7 +50,7 @@ export class productComponent extends Component {
 const mapStateToProps = (state, ownProps) => ({
   product: state.products.find(prod => Number(prod.id) === Number(ownProps.match.params.id)),
   user: state.user,
-  cartId: state.user.orders && state.user.orders[state.user.orders.length - 1].status === 'CART' ? state.user.orders[state.user.orders.length - 1].id : 0,
+  cartId: state.user.orders.length && state.user.orders[state.user.orders.length - 1].status === 'CART' ? state.user.orders[state.user.orders.length - 1].id : 0,
 });
 
 const mapDispatchToProps = dispatch => {
