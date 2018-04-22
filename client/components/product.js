@@ -24,15 +24,14 @@ export class productComponent extends Component {
           <p>Description: {product && product.description}</p>
           <form onSubmit={async (event) => {
             event.persist();
-            let cartId = 0;
+            let { cartId } = this.props;
             if (!this.props.cartId) {
               const newCart = await this.props.handleCreateCart(event, this.props.user.id);
               cartId = newCart.order.id;
-            } else {
-              cartId = this.props.cartId;
             }
             this.props.handleAddToCart(event, this.props.product.price, cartId, this.props.product.id)
-          }}>
+          }}
+          >
             <select name="quantity">
               {this.quantities.map(quantity => {
                 return <option key={quantity}>{quantity}</option>;

@@ -230,7 +230,7 @@ function seed() {
         password: 'tom',
         isGuest: false,
         isAdmin: false,
-      })
+      });
     })
     .catch(err => {
       console.error(err);
