@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { postProd_OrderThunker } from '../store';
+import { postProd_OrderThunker, postOrderThunker } from '../store';
 
 export class productComponent extends Component {
   constructor(props) {
@@ -22,7 +22,16 @@ export class productComponent extends Component {
           <img src={product && product.imageUrl} />
           <br />
           <p>Description: {product && product.description}</p>
-          <form onSubmit={(event) => this.props.handleSubmit(event, this.props.product.price, this.props.user.id, this.props.product.id)}>
+          <form onSubmit={async (event) => {
+            event.persist();
+            let { cartId } = this.props;
+            if (!this.props.cartId) {
+              const newCart = await this.props.handleCreateCart(event, this.props.user.id);
+              cartId = newCart.order.id;
+            }
+            this.props.handleAddToCart(event, this.props.product.price, cartId, this.props.product.id);
+          }}
+          >
             <select name="quantity">
               {this.quantities.map(quantity => <option key={quantity}>{quantity}</option>)}
             </select>
@@ -41,15 +50,21 @@ export class productComponent extends Component {
 const mapStateToProps = (state, ownProps) => ({
   product: state.products.find(prod => Number(prod.id) === Number(ownProps.match.params.id)),
   user: state.user,
-  cartId: state.user.orders && state.user.orders[state.user.orders.length - 1].status === 'CART' ? state.user.orders[state.user.orders.length - 1].id : 0,
+  cartId: state.user.orders.length && state.user.orders[state.user.orders.length - 1].status === 'CART' ? state.user.orders[state.user.orders.length - 1].id : 0,
 });
 
 const mapDispatchToProps = dispatch => {
   return {
-    handleSubmit(event, price, orderId, productId) {
+    handleAddToCart(event, price, orderId, productId) {
       event.preventDefault();
       const quantity = Number(event.target[0].value);
       dispatch(postProd_OrderThunker(price, quantity, orderId, productId));
+    },
+    handleCreateCart(event, userId) {
+      event.preventDefault();
+      const status = 'CART';
+      const addressId = null;
+      return dispatch(postOrderThunker(status, userId, addressId));
     },
   };
 };

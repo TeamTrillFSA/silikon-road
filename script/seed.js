@@ -44,7 +44,7 @@ for (let i = 0; i < 12; i++) {
   addresses.push({
     street: faker.address.streetAddress(),
     city: faker.address.city(),
-    state: faker.address.state(),
+    state: faker.address.stateAbbr(),
     zip: faker.address.zipCode().slice(0, 5),
   });
 }

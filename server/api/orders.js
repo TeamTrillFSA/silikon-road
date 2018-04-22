@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Order, OrderProduct } = require('../db/models');
+const { Order } = require('../db/models');
 
 module.exports = router;
 
@@ -18,18 +18,8 @@ router.get('/:id', (req, res, next) => {
 });
 
 router.post('/', (req, res, next) => {
-  Order.create({
-    userId: req.user,
-  })
-    .then(order => {
-      return OrderProduct.create({
-        orderId: order.id,
-        productId: req.body.productId,
-        quantity: req.body.quantity,
-        price: req.body.productPrice,
-      });
-    })
-    .then(orderProduct => res.json(orderProduct))
+  Order.create(req.body)
+    .then(order => res.status(201).send(order))
     .catch(next);
 });
 
