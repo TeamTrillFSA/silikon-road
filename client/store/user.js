@@ -39,6 +39,21 @@ export const auth = (email, password, method) =>
       })
       .catch(dispatchOrHistoryErr => console.error(dispatchOrHistoryErr));
 
+export const signUpGuest = (firstName, lastName, password) => {
+  console.log("Inside og signUpGuest Thunk Creator");
+  return dispatch => {
+    console.log("Inside of the dispatch function");
+    return axios.post('/auth/guestsignup', { firstName, lastName, password })
+      .then(res => {
+        return dispatch(getUser(res.data));
+      })
+      // }, authError => { // rare example: a good use case for parallel (non-catch) error handler
+      //   dispatch(getUser({ error: authError })); // I don't think that we need these, but probably
+      // })                  // Something good to go over in the code review
+      .catch(dispatchOrHistoryErr => console.error(dispatchOrHistoryErr));
+  }
+}
+
 export const logout = () =>
   dispatch =>
     axios.post('/auth/logout')

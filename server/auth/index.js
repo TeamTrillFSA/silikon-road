@@ -38,6 +38,12 @@ router.post('/signup', (req, res, next) => {
     });
 });
 
+router.post('/guestsignup', (req, res, next) => {
+  User.create(req.body)
+  .then(user => res.status(201).send(user))
+  .catch(next)
+})
+
 router.post('/logout', (req, res) => {
   req.logout();
   req.session.destroy();
