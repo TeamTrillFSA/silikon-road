@@ -12,53 +12,56 @@ import {
 } from '../store';
 
 export const AddProduct = props => {
-  if (!props.user || props.user.isGuest) {
-    return <div>You must be a registered user to add a product.</div>;
+  if (!props.user.id || props.user.isGuest) {
+    return <p>You must be a registered user to add a product.</p>;
   }
   return (
-    <form onSubmit={event => props.handleSubmit(event, props.userInput, props.user)}>
-      <label htmlFor="addProduct_input_name">
-        Product Name
-        <input
-          id="addProduct_input_name"
-          name="name"
-          type="text"
-          value={props.userInput.name.value}
-          onChange={props.handleChange}
-        />
-      </label>
-      <label htmlFor="addProduct_input_price">
-        Product Price
-        <input
-          id="addProduct_input_price"
-          name="price"
-          type="text"
-          value={props.userInput.price.value}
-          onChange={props.handleChange}
-        />
-      </label>
-      <label htmlFor="addProduct_input_desc">
-        Product Description
-        <input
-          id="addProduct_input_desc"
-          name="description"
-          type="text"
-          value={props.userInput.description.value}
-          onChange={props.handleChange}
-        />
-      </label>
-      <label htmlFor="addProduct_input_imageUrl">
-        Product Image URL
-        <input
-          id="addProduct_input_imageUrl"
-          name="imageUrl"
-          type="text"
-          value={props.userInput.imageUrl.value}
-          onChange={props.handleChange}
-        />
-      </label>
-      <button type="submit">Submit</button>
-    </form>
+    <div>
+      <h2>Add Your Product</h2>
+      <form onSubmit={event => props.handleSubmit(event, props.userInput, props.user)}>
+        <label htmlFor="addProduct_input_name">
+          Product Name
+          <input
+            id="addProduct_input_name"
+            name="name"
+            type="text"
+            value={props.userInput.name.value}
+            onChange={props.handleChange}
+          />
+        </label>
+        <label htmlFor="addProduct_input_price">
+          Product Price
+          <input
+            id="addProduct_input_price"
+            name="price"
+            type="text"
+            value={props.userInput.price.value}
+            onChange={props.handleChange}
+          />
+        </label>
+        <label htmlFor="addProduct_input_desc">
+          Product Description
+          <input
+            id="addProduct_input_desc"
+            name="description"
+            type="text"
+            value={props.userInput.description.value}
+            onChange={props.handleChange}
+          />
+        </label>
+        <label htmlFor="addProduct_input_imageUrl">
+          Product Image URL
+          <input
+            id="addProduct_input_imageUrl"
+            name="imageUrl"
+            type="text"
+            value={props.userInput.imageUrl.value}
+            onChange={props.handleChange}
+          />
+        </label>
+        <button type="submit">Submit</button>
+      </form>
+    </div>
   );
 };
 
