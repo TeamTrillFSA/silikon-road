@@ -29,7 +29,7 @@ export class productComponent extends Component {
               const newCart = await this.props.handleCreateCart(event, this.props.user.id);
               cartId = newCart.order.id;
             }
-            this.props.handleAddToCart(event, this.props.product.price, cartId, this.props.product.id)
+            this.props.handleAddToCart(event, this.props.product.price, cartId, this.props.product.id);
           }}
           >
             <select name="quantity">
