@@ -25,10 +25,8 @@ export class productComponent extends Component {
           <form onSubmit={async (event) => {
             event.persist();
             let { cartId, user } = this.props;
-            console.log("USRE: >>> ", user);
             if (Object.keys(user).length === 0) { //SO suggests && obj.constructor === Object
               const respond = await this.props.handleCreateGuest(event);
-              console.log("RESPOND: >>> ", respond);
               user = respond.user;
             }
             if (!cartId) {
@@ -75,7 +73,7 @@ const mapDispatchToProps = dispatch => {
     handleCreateGuest(event) {
       event.preventDefault();
       console.log("We made it into handleGuestCreate");
-      const password = 'fred'; //This is th default password
+      const password = 'fred'; //This is the default password
       const firstName = 'GUEST';
       const lastName = 'USER';
       return dispatch(signUpGuest(firstName, lastName, password));

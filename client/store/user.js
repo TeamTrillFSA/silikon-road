@@ -40,9 +40,7 @@ export const auth = (email, password, method) =>
       .catch(dispatchOrHistoryErr => console.error(dispatchOrHistoryErr));
 
 export const signUpGuest = (firstName, lastName, password) => {
-  console.log("Inside og signUpGuest Thunk Creator");
   return dispatch => {
-    console.log("Inside of the dispatch function");
     return axios.post('/auth/guestsignup', { firstName, lastName, password })
       .then(res => {
         return dispatch(getUser(res.data));
