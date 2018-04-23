@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { me, logout } from './user';
+import { me } from './user';
 
 /**
  * ACTION TYPES
