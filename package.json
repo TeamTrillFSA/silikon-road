@@ -1,7 +1,7 @@
 {
   "name": "silikonroad",
   "version": "1.0.0",
-  "description": "Some boilerplate code to get you started - get shakin'!",
+  "description": "A marketplace for high-dollar illicit technology.",
   "engines": {
     "node": ">= 7.0.0"
   },
