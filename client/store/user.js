@@ -45,9 +45,6 @@ export const signUpGuest = (firstName, lastName, password) => {
       .then(res => {
         return dispatch(getUser(res.data));
       })
-      // }, authError => { // rare example: a good use case for parallel (non-catch) error handler
-      //   dispatch(getUser({ error: authError })); // I don't think that we need these, but probably
-      // })                  // Something good to go over in the code review
       .catch(dispatchOrHistoryErr => console.error(dispatchOrHistoryErr));
   }
 }

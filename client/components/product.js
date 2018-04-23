@@ -25,7 +25,7 @@ export class productComponent extends Component {
           <form onSubmit={async (event) => {
             event.persist();
             let { cartId, user } = this.props;
-            if (Object.keys(user).length === 0) { //SO suggests && obj.constructor === Object
+            if (Object.keys(user).length === 0 && user.constructor === Object) {
               const respond = await this.props.handleCreateGuest(event);
               user = respond.user;
             }
