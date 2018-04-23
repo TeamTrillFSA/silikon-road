@@ -72,7 +72,6 @@ const mapDispatchToProps = dispatch => {
     },
     handleCreateGuest(event) {
       event.preventDefault();
-      console.log("We made it into handleGuestCreate");
       const password = 'fred'; //This is the default password
       const firstName = 'GUEST';
       const lastName = 'USER';
