@@ -5,13 +5,31 @@ import { connect } from 'react-redux';
 export const Cart = ({ order }) => {
   return (
     <div className="cart">
-      {order.products.map(product => <h3>{product.name}</h3>)}
+
+      <table>
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Price</th>
+            <th>Quantity</th>
+          </tr>
+        </thead>
+        <tbody>
+          {order.products.map(product =>
+            (<tr>
+              <td>f</td>
+              <td>{}</td>
+              <td>f</td>
+            </tr>))}
+        </tbody>
+      </table>
+
     </div>
   );
 };
 
 const mapStateToProps = (state) => ({
-  order: state.user.orders.find(order => Number(order.id) === state.order) });
+  order: state.user.orders.find(order => Number(order.id) === state.order.id) });
 
 export default connect(mapStateToProps)(Cart);
 
