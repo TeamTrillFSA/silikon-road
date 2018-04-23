@@ -2,21 +2,32 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-export const Cart = ({ order }) => {
+export const Cart = ({ order, tblWidthStyle1, tblWidthStyle2 }) => {
   return (
     <div className="cart">
       <table>
+        <colgroup>
+          <col span="1" style={tblWidthStyle1} />
+          <col span="1" style={tblWidthStyle2} />
+          <col span="1" style={tblWidthStyle1} />
+          <col span="1" style={tblWidthStyle1} />
+        </colgroup>
         <thead>
           <tr>
-            <th>Product</th>
-            <th>Price</th>
-            <th>Quantity</th>
+            <th><span className="text-leftalign">Image</span></th>
+            <th><span className="text-centeralign">Product</span></th>
+            <th><span className="text-leftalign">Price</span></th>
+            <th><span className="text-rightalign">Quantity</span></th>
           </tr>
         </thead>
         <tbody>
           {order.products && order.products.map(product => (
-            <tr>
-              <td>{product.name}</td>
+            <tr key={product.id}>
+              <td><img src={product.imageUrl} width="100" height="100" /></td>
+              <td>
+                <span>{product.name}</span>
+                <span>Shipping</span>
+              </td>
               <td>{product.price}</td>
               <td>1</td>
             </tr>))}
@@ -27,8 +38,15 @@ export const Cart = ({ order }) => {
 };
 
 const mapStateToProps = (state) => ({
-  order: state.user.orders && state.user.orders.length ? state.user.orders[state.user.orders.length - 1]
+  order: state.user.orders && state.user.orders.length ?
+    state.user.orders[state.user.orders.length - 1]
     : {},
+  tblWidthStyle1: {
+    width: '15%',
+  },
+  tblWidthStyle2: {
+    width: '55%',
+  },
 });
 
 export default connect(mapStateToProps)(Cart);
