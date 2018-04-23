@@ -1,4 +1,5 @@
 /* global describe beforeEach it */
+/* eslint-disable no-shadow */
 
 const { expect } = require('chai');
 const request = require('supertest');
@@ -16,7 +17,6 @@ describe('order_product routes', () => {
 
   // POST route
   describe('/api/order_product/', () => {
-
     const name = 'secretName';
     const price = 2000;
     const description = 'This is the description';
@@ -25,7 +25,7 @@ describe('order_product routes', () => {
       return order.create({ })
         .then(() => {
           return product.create({ name, price, description });
-        })
+        });
     });
 
     it('POST /api/order_product', () => {
@@ -34,14 +34,14 @@ describe('order_product routes', () => {
       const orderId = 1;
       const productId = 1;
       return request(app)
-      .post('/api/order_product')
-      .send({ price, quantity, orderId, productId })
-      .expect(201)
-      .then(res => {
-        expect(res.body.quantity).to.be.equal(1);
-        expect(res.body.orderId).to.be.equal(1);
-        expect(res.body.productId).to.be.equal(1);
-        expect(Object.keys(res.body).length).to.be.equal(6);
+        .post('/api/order_product')
+        .send({ price, quantity, orderId, productId })
+        .expect(201)
+        .then(res => {
+          expect(res.body.quantity).to.be.equal(1);
+          expect(res.body.orderId).to.be.equal(1);
+          expect(res.body.productId).to.be.equal(1);
+          expect(Object.keys(res.body).length).to.be.equal(6);
         });
     });
   });

@@ -6,7 +6,6 @@ const db = require('../db');
 const app = require('../index');
 
 const Order = db.model('order');
-const User = db.model('user');
 
 describe('Order routes', () => {
   beforeEach(() => {
@@ -15,38 +14,31 @@ describe('Order routes', () => {
 
   // POST route
   describe('/api/orders/', () => {
-
     it('POST /api/orders', () => {
       return request(app)
-      .post('/api/orders')
-      .send({ user: { isAdmin: true } })
-      .expect(201)
-      .then(res => {
-        expect(res.body.status).to.be.equal('CART');
-        expect(res.body.userId).to.be.equal(null);
-        expect(res.body.addressId).to.be.equal(null);
-        expect(Object.keys(res.body).length).to.be.equal(6);
+        .post('/api/orders')
+        .send({ user: { isAdmin: true } })
+        .expect(201)
+        .then(res => {
+          expect(res.body.status).to.be.equal('CART');
+          expect(res.body.userId).to.be.equal(null);
+          expect(res.body.addressId).to.be.equal(null);
+          expect(Object.keys(res.body).length).to.be.equal(6);
+        });
     });
   });
-});
 
-// GET by Id route
+  // GET by Id route
   describe('/api/orders/', () => {
-
     beforeEach(() => {
       return Order.create();
     });
 
     it('It\'s legit impossible to GET /api/orders/:id', () => {
-        return request(app)
-          .get('/api/orders/1')
-          .send({ user: { id: 1 } })
-          .expect(401)
-        //   .then(res => {
-        //     expect(res.body).to.be.an('object');
-        //     expect(Object.keys(res.body).length).to.be.equal(6);
-        //     expect(res.body.status).to.be.equal('CART');
-        //   });
+      return request(app)
+        .get('/api/orders/1')
+        .send({ user: { id: 1 } })
+        .expect(401);
     });
   });
 });
