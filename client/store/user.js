@@ -39,6 +39,16 @@ export const auth = (email, password, method) =>
       })
       .catch(dispatchOrHistoryErr => console.error(dispatchOrHistoryErr));
 
+export const signUpGuest = (firstName, lastName, password) => {
+  return dispatch => {
+    return axios.post('/auth/guestsignup', { firstName, lastName, password })
+      .then(res => {
+        return dispatch(getUser(res.data));
+      })
+      .catch(dispatchOrHistoryErr => console.error(dispatchOrHistoryErr));
+  }
+}
+
 export const logout = () =>
   dispatch =>
     axios.post('/auth/logout')
