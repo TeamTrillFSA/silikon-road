@@ -5,28 +5,18 @@ const FIELD_EDIT_ADDPRODUCT_NAME = 'FIELD_EDIT_ADDPRODUCT_NAME';
 const FIELD_EDIT_ADDPRODUCT_PRICE = 'FIELD_EDIT_ADDPRODUCT_PRICE';
 const FIELD_EDIT_ADDPRODUCT_DESC = 'FIELD_EDIT_ADDPRODUCT_DESC';
 const FIELD_EDIT_ADDPRODUCT_IMAGEURL = 'FIELD_EDIT_ADDPRODUCT_IMAGEURL';
+const FIELD_CLEAR_AFTER_SUBMISSION = 'FIELD_CLEAR_AFTER_SUBMISSION';
+
 /**
  * INITIAL STATE
  */
 
 const initialState = {
   addProduct: {
-    name: {
-      value: '',
-      untouched: true,
-    },
-    price: {
-      value: '0',
-      untouched: true,
-    },
-    description: {
-      value: '',
-      untouched: true,
-    },
-    imageUrl: {
-      value: '',
-      untouched: true,
-    },
+    name: '',
+    price: '0',
+    description: '',
+    imageUrl: '',
   },
 };
 /**
@@ -60,6 +50,12 @@ export const fieldEditAddProductImage = function fieldEditAddProductImage(prodIm
     value: prodImageField,
   };
 };
+
+export const fieldClearAfterSubmission = function fieldClearAfterSubmission() {
+  return {
+    type: FIELD_CLEAR_AFTER_SUBMISSION,
+  };
+};
 /**
  * REDUCER
  */
@@ -69,42 +65,33 @@ const reducer = (state = initialState, action) => {
     case FIELD_EDIT_ADDPRODUCT_NAME:
       return Object.assign({}, state, {
         addProduct: Object.assign({}, state.addProduct, {
-          name: {
-            value: action.value,
-            untouched: false,
-          },
+          name: action.value,
         }),
       });
 
     case FIELD_EDIT_ADDPRODUCT_PRICE:
       return Object.assign({}, state, {
         addProduct: Object.assign({}, state.addProduct, {
-          price: {
-            value: action.value,
-            untouched: false,
-          },
+          price: action.value,
         }),
       });
 
     case FIELD_EDIT_ADDPRODUCT_DESC:
       return Object.assign({}, state, {
         addProduct: Object.assign({}, state.addProduct, {
-          description: {
-            value: action.value,
-            untouched: false,
-          },
+          description: action.value,
         }),
       });
 
     case FIELD_EDIT_ADDPRODUCT_IMAGEURL:
       return Object.assign({}, state, {
         addProduct: Object.assign({}, state.addProduct, {
-          imageUrl: {
-            value: action.value,
-            untouched: false,
-          },
+          imageUrl: action.value,
         }),
       });
+
+    case FIELD_CLEAR_AFTER_SUBMISSION:
+      return initialState;
 
     default:
       return state;

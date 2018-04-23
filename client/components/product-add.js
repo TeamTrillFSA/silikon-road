@@ -9,10 +9,11 @@ import {
   fieldEditAddProductDesc,
   fieldEditAddProductImage,
   addNewProductThunk,
+  fieldClearAfterSubmission,
 } from '../store';
 
 export const AddProduct = props => {
-  const nameTaken = props.productNames.includes(props.userInput.name.value);
+  const nameTaken = props.productNames.includes(props.userInput.name);
 
   if (!props.user.id || props.user.isGuest) {
     return <p>You must be a registered user to add a product.</p>;
@@ -27,7 +28,7 @@ export const AddProduct = props => {
             id="addProduct_input_name"
             name="name"
             type="text"
-            value={props.userInput.name.value}
+            value={props.userInput.name}
             onChange={props.handleChange}
             required
           />
@@ -40,8 +41,8 @@ export const AddProduct = props => {
           <input
             id="addProduct_input_price"
             name="price"
-            type="text"
-            value={props.userInput.price.value}
+            type="number"
+            value={props.userInput.price}
             onChange={props.handleChange}
             required
           />
@@ -52,7 +53,7 @@ export const AddProduct = props => {
             id="addProduct_input_desc"
             name="description"
             type="text"
-            value={props.userInput.description.value}
+            value={props.userInput.description}
             onChange={props.handleChange}
             required
           />
@@ -63,7 +64,7 @@ export const AddProduct = props => {
             id="addProduct_input_imageUrl"
             name="imageUrl"
             type="text"
-            value={props.userInput.imageUrl.value}
+            value={props.userInput.imageUrl}
             onChange={props.handleChange}
             required
           />
@@ -88,12 +89,13 @@ const mapDispatchToProps = dispatch => ({
   handleSubmit(event, inputValues, user) {
     event.preventDefault();
     dispatch(addNewProductThunk({
-      name: inputValues.name.value,
-      price: inputValues.price.value,
-      description: inputValues.description.value,
-      imageUrl: inputValues.imageUrl.value,
+      name: inputValues.name,
+      price: inputValues.price,
+      description: inputValues.description,
+      imageUrl: inputValues.imageUrl,
       userId: user.id,
     }));
+    dispatch(fieldClearAfterSubmission());
   },
   handleChange(event) {
     switch (event.target.name) {
