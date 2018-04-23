@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 export const Cart = ({ order }) => {
   return (
     <div className="cart">
-
       <table>
         <thead>
           <tr>
@@ -15,21 +14,22 @@ export const Cart = ({ order }) => {
           </tr>
         </thead>
         <tbody>
-          {order.products.map(product =>
-            (<tr>
-              <td>f</td>
-              <td>{}</td>
-              <td>f</td>
+          {order.products && order.products.map(product => (
+            <tr>
+              <td>{product.name}</td>
+              <td>{product.price}</td>
+              <td>1</td>
             </tr>))}
         </tbody>
       </table>
-
     </div>
   );
 };
 
 const mapStateToProps = (state) => ({
-  order: state.user.orders.find(order => Number(order.id) === state.order.id) });
+  order: state.user.orders && state.user.orders.length ? state.user.orders[state.user.orders.length - 1]
+    : {},
+});
 
 export default connect(mapStateToProps)(Cart);
 
