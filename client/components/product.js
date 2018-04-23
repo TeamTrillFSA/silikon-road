@@ -14,6 +14,30 @@ export class productComponent extends Component {
 
   render() {
     const { product } = this.props;
+    let { cartId, user } = this.props;
+
+    const getOrderOnUser = (searchOrderId, userObj) => {
+      if (userObj.orders) {
+        return userObj.orders.filter(order => (order.id === searchOrderId))[0];
+      }
+      return null;
+    };
+
+    const getProductIdsOnOrder = order => {
+      if (order.products) {
+        return order.products.map(prod => prod.id);
+      }
+      return null;
+    };
+
+    const getProductOnUserOrder = (userObj, orderId, searchProdId) => {
+      if (getOrderOnUser(orderId, userObj).products) {
+        return getOrderOnUser(orderId, userObj).products.find(prod => prod.id === searchProdId);
+      }
+      return null;
+    };
+    
+
     return (
       <div>
         <div>
@@ -24,22 +48,30 @@ export class productComponent extends Component {
           <p>Description: {product && product.description}</p>
           <form onSubmit={async (event) => {
             event.persist();
-            let { cartId, user } = this.props;
             if (Object.keys(user).length === 0 && user.constructor === Object) {
-              const respond = await this.props.handleCreateGuest(event);
-              user = respond.user;
+              const response = await this.props.handleCreateGuest(event);
+              user = { response };
             }
             if (!cartId) {
               const newCart = await this.props.handleCreateCart(event, user.id);
               cartId = newCart.order.id;
             }
-            this.props.handleAddToCart(event, this.props.product.price, cartId, this.props.product.id);
+            this.props.handleAddToCart(event, product.price, cartId, product.id);
           }}
           >
-            <select name="quantity">
-              {this.quantities.map(quantity => <option key={quantity}>{quantity}</option>)}
-            </select>
-            <button type="submit">Add to cart</button>
+            { cartId && getProductIdsOnOrder(getOrderOnUser(cartId, user)).includes(product.id) ?
+              <select name="quantity" value={getProductOnUserOrder(user, cartId, product.id).order_product.quantity}>
+                {this.quantities.map(quantity => <option key={quantity}>{quantity}</option>)}
+              </select> :
+              <select name="quantity">
+                {this.quantities.map(quantity => <option key={quantity}>{quantity}</option>)}
+              </select>
+            }
+            
+            { cartId && getProductIdsOnOrder(getOrderOnUser(cartId, user)).includes(product.id) ?
+              <button type="submit">Update quantity</button> :
+              <button type="submit">Add to cart</button>
+            }
           </form>
         </div>
         <hr />
