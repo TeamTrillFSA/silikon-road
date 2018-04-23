@@ -13,4 +13,10 @@ router.get('/:productId', (req, res, next) => {
     .catch(next);
 });
 
+router.post('/', (req, res, next) => {
+  Product.create(req.body)
+    .then(product => res.status(201).send(product))
+    .catch(next);
+});
+
 module.exports = router;

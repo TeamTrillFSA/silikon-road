@@ -43,3 +43,8 @@ form div {
   color: red;
   justify-content: center;
 }
+
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0; 
+}

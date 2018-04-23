@@ -1,9 +1,11 @@
 import axios from 'axios';
+import history from '../history';
 
 /**
  * ACTION TYPES
  */
 const GET_ALL_PRODUCTS = 'GET_ALL_PRODUCTS';
+const ADD_NEW_PRODUCT = 'ADD_NEW_PRODUCT';
 
 /**
  * INITIAL STATE
@@ -18,6 +20,11 @@ export const getAllProducts = products => ({
   products,
 });
 
+export const addNewProduct = product => ({
+  type: ADD_NEW_PRODUCT,
+  product,
+});
+
 /**
  * THUNK CREATORS
  */
@@ -29,6 +36,14 @@ export const fetchAllProducts = () =>
         dispatch(getAllProducts(res.data)))
       .catch(err => console.error(err));
 
+export const addNewProductThunk = (product) =>
+  dispatch =>
+    axios.post('/api/products', product)
+      .then(res => {
+        dispatch(addNewProduct(res.data));
+        history.push(`/products/${res.data.id}`);
+      })
+      .catch(err => console.error(err));
 
 /**
  * REDUCER
@@ -37,6 +52,8 @@ export default function (state = initialState, action) {
   switch (action.type) {
     case GET_ALL_PRODUCTS:
       return action.products;
+    case ADD_NEW_PRODUCT:
+      return [...state, action.product];
     default:
       return state;
   }
