@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { postProd_OrderThunker, postOrderThunker, signUpGuest } from '../store';
+import { postProd_OrderThunker, postOrderThunker, signUpGuest, updateQuantityThunk, fieldEditUpdateOrderQuantity } from '../store';
 
 export class productComponent extends Component {
   constructor(props) {
@@ -59,17 +59,14 @@ export class productComponent extends Component {
             this.props.handleAddToCart(event, product.price, cartId, product.id);
           }}
           >
+            <select name="quantity" onChange={this.props.handleChange}>
+              {this.quantities.map(quantity => <option key={quantity}>{quantity}</option>)}
+            </select>
             { cartId && getProductIdsOnOrder(getOrderOnUser(cartId, user)).includes(product.id) ?
-              <select name="quantity" value={getProductOnUserOrder(user, cartId, product.id).order_product.quantity}>
-                {this.quantities.map(quantity => <option key={quantity}>{quantity}</option>)}
-              </select> :
-              <select name="quantity">
-                {this.quantities.map(quantity => <option key={quantity}>{quantity}</option>)}
-              </select>
-            }
-            
-            { cartId && getProductIdsOnOrder(getOrderOnUser(cartId, user)).includes(product.id) ?
-              <button type="submit">Update quantity</button> :
+              <button onClick={event => {
+                this.props.handleQuantityUpdate(event, product.id, this.props.selectedQuantity);
+              }}
+              >Update quantity in cart (current: {getProductOnUserOrder(user, cartId, product.id).order_product.quantity})</button> :
               <button type="submit">Add to cart</button>
             }
           </form>
@@ -87,6 +84,7 @@ const mapStateToProps = (state, ownProps) => ({
   product: state.products.find(prod => Number(prod.id) === Number(ownProps.match.params.id)),
   user: state.user,
   cartId: state.user.orders && state.user.orders.length && state.user.orders[state.user.orders.length - 1].status === 'CART' ? state.user.orders[state.user.orders.length - 1].id : 0,
+  selectedQuantity: state.userInput.singleProduct.quantity,
 });
 
 const mapDispatchToProps = dispatch => {
@@ -108,6 +106,20 @@ const mapDispatchToProps = dispatch => {
       const firstName = 'GUEST';
       const lastName = 'USER';
       return dispatch(signUpGuest(firstName, lastName, password));
+    },
+    handleQuantityUpdate(event, prodId, newQty) {
+      event.preventDefault();
+      console.log(event, prodId, newQty)
+      return dispatch(updateQuantityThunk(prodId, newQty));
+    },
+    handleChange(event) {
+      switch (event.target.name) {
+        case 'quantity':
+          dispatch(fieldEditUpdateOrderQuantity(event.target.value));
+          break;
+        default:
+          break;
+      }
     },
   };
 };

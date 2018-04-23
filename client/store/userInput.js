@@ -5,6 +5,7 @@ const FIELD_EDIT_ADDPRODUCT_NAME = 'FIELD_EDIT_ADDPRODUCT_NAME';
 const FIELD_EDIT_ADDPRODUCT_PRICE = 'FIELD_EDIT_ADDPRODUCT_PRICE';
 const FIELD_EDIT_ADDPRODUCT_DESC = 'FIELD_EDIT_ADDPRODUCT_DESC';
 const FIELD_EDIT_ADDPRODUCT_IMAGEURL = 'FIELD_EDIT_ADDPRODUCT_IMAGEURL';
+const FIELD_EDIT_UPDATE_ORDER_QUANTITY = 'FIELD_EDIT_UPDATE_ORDER_QUANTITY';
 const FIELD_CLEAR_AFTER_SUBMISSION = 'FIELD_CLEAR_AFTER_SUBMISSION';
 
 /**
@@ -18,44 +19,54 @@ const initialState = {
     description: '',
     imageUrl: '',
   },
+  singleProduct: {
+    quantity: 1,
+  },
 };
 /**
  * ACTION CREATORS
  */
 
-export const fieldEditAddProductName = function fieldEditAddProductName(prodNameField) {
+export function fieldEditAddProductName(prodNameField) {
   return {
     type: FIELD_EDIT_ADDPRODUCT_NAME,
     value: prodNameField,
   };
-};
+}
 
-export const fieldEditAddProductPrice = function fieldEditAddProductPrice(prodPriceField) {
+export function fieldEditAddProductPrice(prodPriceField) {
   return {
     type: FIELD_EDIT_ADDPRODUCT_PRICE,
     value: prodPriceField,
   };
-};
+}
 
-export const fieldEditAddProductDesc = function fieldEditAddProductDesc(prodDescField) {
+export function fieldEditAddProductDesc(prodDescField) {
   return {
     type: FIELD_EDIT_ADDPRODUCT_DESC,
     value: prodDescField,
   };
-};
+}
 
-export const fieldEditAddProductImage = function fieldEditAddProductImage(prodImageField) {
+export function fieldEditAddProductImage(prodImageField) {
   return {
     type: FIELD_EDIT_ADDPRODUCT_IMAGEURL,
     value: prodImageField,
   };
-};
+}
 
-export const fieldClearAfterSubmission = function fieldClearAfterSubmission() {
+export function fieldClearAfterSubmission() {
   return {
     type: FIELD_CLEAR_AFTER_SUBMISSION,
   };
-};
+}
+
+export function fieldEditUpdateOrderQuantity(selectedQuantity) {
+  return {
+    type: FIELD_EDIT_UPDATE_ORDER_QUANTITY,
+    value: selectedQuantity,
+  };
+}
 /**
  * REDUCER
  */
@@ -87,6 +98,13 @@ const reducer = (state = initialState, action) => {
       return Object.assign({}, state, {
         addProduct: Object.assign({}, state.addProduct, {
           imageUrl: action.value,
+        }),
+      });
+
+    case FIELD_EDIT_UPDATE_ORDER_QUANTITY:
+      return Object.assign({}, state, {
+        addProduct: Object.assign({}, state.singleProduct, {
+          quantity: action.value,
         }),
       });
 
