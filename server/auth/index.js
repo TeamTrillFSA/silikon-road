@@ -6,9 +6,9 @@ module.exports = router;
 router.post('/login', (req, res, next) => {
   User.findOne({
     where: {
-      email: req.body.email,
+      email: req.body.email.trim().toLowerCase(),
     },
-    include: [{ all: true }],
+    include: [{ all: true, nested: true }],
   })
     .then(user => {
       if (!user) {
@@ -25,7 +25,7 @@ router.post('/login', (req, res, next) => {
 });
 
 router.post('/signup', (req, res, next) => {
-  User.create(req.body)
+  User.create(Object.assign({}, req.body, { isGuest: false }))
     .then(user => {
       req.login(user, err => (err ? next(err) : res.json(user)));
     })

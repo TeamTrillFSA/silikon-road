@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const { User } = require('../db/models');
-const { checkConditionMiddleware, adminConditionFunc } = require('./utils');
+const { checkConditionMiddleware, adminConditionFunc } = require('../utils');
 
 router.get('/', checkConditionMiddleware([adminConditionFunc]), (req, res, next) => {
   User.findAll({

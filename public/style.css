@@ -21,10 +21,47 @@ form div {
   display: inline-block;
 }
 
+#checkoutSection {
+  margin-top: 10px;
+}
+
 .headertext {
   font-family: 'Do Hyeon', sans-serif;
   text-align: center;
   text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+}
+
+.text-leftalign {
+  text-align: right;
+}
+
+.text-rightalign {
+  text-align: right;
+}
+
+.text-centeralign {
+  text-align: right;
+}
+
+table {
+  border-collapse:collapse;
+  border:1px solid #FF0000;
+  width:100%;
+}
+
+table td {
+  border:1px solid #000000;
+}
+
+table th {
+  border:1px solid #000000;
+}
+
+td img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+
 }
 
 .productListItem {
