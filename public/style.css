@@ -21,6 +21,10 @@ form div {
   display: inline-block;
 }
 
+#checkoutSection {
+  margin-top: 10px;
+}
+
 .headertext {
   font-family: 'Do Hyeon', sans-serif;
   text-align: center;
@@ -81,3 +85,4 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0; 
 }
+
