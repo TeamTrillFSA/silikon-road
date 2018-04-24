@@ -1,9 +1,10 @@
 
 export const getOrderOnUser = (searchOrderId, userObj) => {
-  return userObj.orders ? userObj.orders.filter(order => (order.id === searchOrderId))[0] : null;
+  return userObj.orders ? userObj.orders.filter(order => (order.id === searchOrderId))[0] : { products: [] };
 };
 
 export const getProductIdsOnOrder = order => {
+  console.log(order);
   return order.products ? order.products.map(prod => prod.id) : null;
 };
 

@@ -29,7 +29,7 @@ export class productComponent extends Component {
             event.persist();
             if (Object.keys(user).length === 0 && user.constructor === Object) {
               const response = await this.props.handleCreateGuest(event);
-              user = { response };
+              ({ user } = response);
             }
             if (!cartId) {
               const newCart = await this.props.handleCreateCart(event, user.id);
