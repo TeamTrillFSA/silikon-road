@@ -27,10 +27,6 @@ export const Cart = ({ order, tblWidthStyle1, tblWidthStyle2 }) => {
                 <td><img src={product.imageUrl} width="100" height="100" /></td>
                 <td>
                   <span>{product.name}</span>
-                  <br />
-                  <span>Shipping Firm: Silikon Road LLC</span>
-                  <br />
-                  <button>Delete</button>
                 </td>
                 <td>{product.price}</td>
                 <td>{product.order_product.quantity}</td>
