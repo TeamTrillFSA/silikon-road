@@ -8,7 +8,7 @@ router.post('/login', (req, res, next) => {
     where: {
       email: req.body.email,
     },
-    include: [{ all: true }],
+    include: [{ all: true, nested: true }],
   })
     .then(user => {
       if (!user) {
