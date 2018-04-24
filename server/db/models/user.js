@@ -12,6 +12,12 @@ const User = db.define('user', {
   email: {
     type: Sequelize.STRING,
     unique: true,
+    validate: {
+      isEmail: true,
+    },
+    set(email) {
+      if (email) this.setDataValue('email', email.trim().toLowerCase());
+    },
   },
   password: {
     type: Sequelize.STRING,
