@@ -2,8 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-const range = (end) => [...Array(end)].map((_, i) => i);
-
 export const Cart = ({ order, tblWidthStyle1, tblWidthStyle2 }) => {
   return (
     <div className="cart">
@@ -29,15 +27,13 @@ export const Cart = ({ order, tblWidthStyle1, tblWidthStyle2 }) => {
                 <td><img src={product.imageUrl} width="100" height="100" /></td>
                 <td>
                   <span>{product.name}</span>
+                  <br />
                   <span>Shipping Firm: Silikon Road LLC</span>
+                  <br />
                   <button>Delete</button>
                 </td>
                 <td>{product.price}</td>
-                <td>
-                  <select>
-                    {range(10).map(number => <option key={number}>{number}</option>)}
-                  </select>
-                </td>
+                <td>{product.order_product.quantity}</td>
               </tr>))}
           </tbody>
         </table>
