@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { postProd_OrderThunker, postOrderThunker, signUpGuest, updateQuantityThunk, fieldEditUpdateOrderQuantity } from '../store';
+import { getOrderOnUser, getProductIdsOnOrder, getProductOnUserOrder } from '../utils';
 
 export class productComponent extends Component {
   constructor(props) {
@@ -15,21 +16,6 @@ export class productComponent extends Component {
   render() {
     const { product } = this.props;
     let { cartId, user } = this.props;
-
-    const getOrderOnUser = (searchOrderId, userObj) => {
-      return userObj.orders ? userObj.orders.filter(order => (order.id === searchOrderId))[0] : null;
-    };
-
-    const getProductIdsOnOrder = order => {
-      return order.products ? order.products.map(prod => prod.id) : null;
-    };
-
-    const getProductOnUserOrder = (userObj, orderId, searchProdId) => {
-      if (getOrderOnUser(orderId, userObj).products) {
-        return getOrderOnUser(orderId, userObj).products.find(prod => prod.id === searchProdId);
-      }
-      return null;
-    };
 
     return (
       <div>
