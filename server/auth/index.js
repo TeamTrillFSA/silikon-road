@@ -25,7 +25,7 @@ router.post('/login', (req, res, next) => {
 });
 
 router.post('/signup', (req, res, next) => {
-  User.create(req.body)
+  User.create(Object.assign({}, req.body, { isGuest: false }))
     .then(user => {
       req.login(user, err => (err ? next(err) : res.json(user)));
     })
