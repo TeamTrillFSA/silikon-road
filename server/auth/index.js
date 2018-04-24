@@ -6,7 +6,7 @@ module.exports = router;
 router.post('/login', (req, res, next) => {
   User.findOne({
     where: {
-      email: req.body.email,
+      email: req.body.email.trim().toLowerCase(),
     },
     include: [{ all: true, nested: true }],
   })
