@@ -4,6 +4,7 @@ import axios from 'axios';
  * ACTION TYPES
  */
 const POST_ORDER = 'POST_ORDER';
+const PUT_ORDER = 'PUT_ORDER';
 /**
  * INITIAL STATE
  */
@@ -17,6 +18,10 @@ export const postOrder = order => ({
   order,
 });
 
+export const putOrder = order => ({
+  type: PUT_ORDER,
+  order,
+});
 
 /**
  * THUNK CREATORS
@@ -29,6 +34,13 @@ export const postOrderThunker = (status, userId, addressId) =>
         dispatch(postOrder(res.data)))
       .catch(err => console.error(err));
 
+export const putOrderThunker = (status, orderId, addressId) =>
+  dispatch =>
+    axios.put(`/api/orders/${orderId}`, { status, addressId })
+      .then(res =>
+        dispatch(postOrder(res.data)))
+      .catch(err => console.error(err));
+
 
 /**
  * REDUCER
@@ -36,6 +48,8 @@ export const postOrderThunker = (status, userId, addressId) =>
 export default function (state = initialState, action) {
   switch (action.type) {
     case POST_ORDER:
+      return action.order;
+    case PUT_ORDER:
       return action.order;
     default:
       return state;
