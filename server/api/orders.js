@@ -18,8 +18,12 @@ router.get('/:id', (req, res, next) => {
 });
 
 router.post('/', (req, res, next) => {
-  Order.create(req.body)
-    .then(order => res.status(201).send(order))
-    .catch(next);
+  if (req.user) {
+    Order.create(req.body)
+      .then(order => res.status(201).send(order))
+      .catch(next);
+  } else {
+    res.sendStatus(401);
+  }
 });
 

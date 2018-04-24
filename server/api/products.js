@@ -14,9 +14,13 @@ router.get('/:productId', (req, res, next) => {
 });
 
 router.post('/', (req, res, next) => {
-  Product.create(req.body)
-    .then(product => res.status(201).send(product))
-    .catch(next);
+  if (req.user) {
+    Product.create(req.body)
+      .then(product => res.status(201).send(product))
+      .catch(next);
+  } else {
+    res.sendStatus(401);
+  }
 });
 
 module.exports = router;
