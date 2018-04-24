@@ -9,10 +9,13 @@ router.post('/', (req, res, next) => {
 });
 
 router.put('/', (req, res, next) => {
-  console.log(req.body)
-  OrderProduct.findById(req.body.productId)
+  return OrderProduct.findOne({
+    where: {
+      orderId: req.body.orderId,
+      productId: req.body.productId,
+    },
+  })
     .then(lineitem => {
-      console.log(lineitem)
       return lineitem.update({
         quantity: req.body.quantity,
       });

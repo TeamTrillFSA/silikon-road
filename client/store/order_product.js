@@ -35,9 +35,9 @@ export const postProd_OrderThunker = (price, quantity, orderId, productId) =>
       .then(() => dispatch(me()))
       .catch(err => console.error(err));
 
-export const updateQuantityThunk = (productId, quantity) =>
+export const updateQuantityThunk = (orderId, productId, quantity) =>
   dispatch =>
-    axios.put('/api/order_product', { productId, quantity })
+    axios.put('/api/order_product', { orderId, productId, quantity })
       .then(res =>
         dispatch(updateOrderQuantity(res.data.quantity)))
       .then(() => dispatch(me()))

@@ -17,17 +17,11 @@ export class productComponent extends Component {
     let { cartId, user } = this.props;
 
     const getOrderOnUser = (searchOrderId, userObj) => {
-      if (userObj.orders) {
-        return userObj.orders.filter(order => (order.id === searchOrderId))[0];
-      }
-      return null;
+      return userObj.orders ? userObj.orders.filter(order => (order.id === searchOrderId))[0] : null;
     };
 
     const getProductIdsOnOrder = order => {
-      if (order.products) {
-        return order.products.map(prod => prod.id);
-      }
-      return null;
+      return order.products ? order.products.map(prod => prod.id) : null;
     };
 
     const getProductOnUserOrder = (userObj, orderId, searchProdId) => {
@@ -36,7 +30,6 @@ export class productComponent extends Component {
       }
       return null;
     };
-    
 
     return (
       <div>
@@ -59,14 +52,21 @@ export class productComponent extends Component {
             this.props.handleAddToCart(event, product.price, cartId, product.id);
           }}
           >
-            <select name="quantity" onChange={this.props.handleChange}>
+            <select
+              name="quantity"
+              value={this.props.selectedQuantity}
+              onChange={this.props.handleChange}
+            >
               {this.quantities.map(quantity => <option key={quantity}>{quantity}</option>)}
             </select>
             { cartId && getProductIdsOnOrder(getOrderOnUser(cartId, user)).includes(product.id) ?
               <button onClick={event => {
-                this.props.handleQuantityUpdate(event, product.id, this.props.selectedQuantity);
+                this.props.handleQuantityUpdate(event, cartId, product.id, this.props.selectedQuantity);
               }}
-              >Update quantity in cart (current: {getProductOnUserOrder(user, cartId, product.id).order_product.quantity})</button> :
+              >Update quantity in cart (current: {
+                getProductOnUserOrder(user, cartId, product.id).order_product.quantity
+              })
+              </button> :
               <button type="submit">Add to cart</button>
             }
           </form>
@@ -80,12 +80,17 @@ export class productComponent extends Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  product: state.products.find(prod => Number(prod.id) === Number(ownProps.match.params.id)),
-  user: state.user,
-  cartId: state.user.orders && state.user.orders.length && state.user.orders[state.user.orders.length - 1].status === 'CART' ? state.user.orders[state.user.orders.length - 1].id : 0,
-  selectedQuantity: state.userInput.singleProduct.quantity,
-});
+const mapStateToProps = (state, ownProps) => {
+  const userOrders = state.user.orders;
+  return {
+    product: state.products.find(prod => Number(prod.id) === Number(ownProps.match.params.id)),
+    user: state.user,
+    cartId: userOrders &&
+            userOrders.length &&
+            userOrders[userOrders.length - 1].status === 'CART' ? userOrders[userOrders.length - 1].id : 0,
+    selectedQuantity: state.userInput.singleProduct.quantity,
+  };
+};
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -102,15 +107,14 @@ const mapDispatchToProps = dispatch => {
     },
     handleCreateGuest(event) {
       event.preventDefault();
-      const password = 'fred'; //This is the default password
+      const password = 'fred';
       const firstName = 'GUEST';
       const lastName = 'USER';
       return dispatch(signUpGuest(firstName, lastName, password));
     },
-    handleQuantityUpdate(event, prodId, newQty) {
+    handleQuantityUpdate(event, orderId, prodId, newQty) {
       event.preventDefault();
-      console.log(event, prodId, newQty)
-      return dispatch(updateQuantityThunk(prodId, newQty));
+      return dispatch(updateQuantityThunk(orderId, prodId, newQty));
     },
     handleChange(event) {
       switch (event.target.name) {

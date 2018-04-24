@@ -103,7 +103,7 @@ const reducer = (state = initialState, action) => {
 
     case FIELD_EDIT_UPDATE_ORDER_QUANTITY:
       return Object.assign({}, state, {
-        addProduct: Object.assign({}, state.singleProduct, {
+        singleProduct: Object.assign({}, state.singleProduct, {
           quantity: action.value,
         }),
       });
