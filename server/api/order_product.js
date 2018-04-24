@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { OrderProduct } = require('../db/models');
+const { Order, OrderProduct } = require('../db/models');
 
 // Updating the order_product relationship; adding a product to an order
 router.post('/', (req, res, next) => {
@@ -9,19 +9,26 @@ router.post('/', (req, res, next) => {
 });
 
 router.put('/', (req, res, next) => {
-  return OrderProduct.findOne({
-    where: {
-      orderId: req.body.orderId,
-      productId: req.body.productId,
-    },
-  })
-    .then(lineitem => {
-      return lineitem.update({
-        quantity: req.body.quantity,
+  const putOrdProd = async () => {
+    const order = await Order.findById(req.body.orderId);
+    const { userId } = order;
+
+    if (req.user && req.user.id === userId) {
+      const orderProduct = await OrderProduct.findOne({
+        where: {
+          orderId: req.body.orderId,
+          productId: req.body.productId,
+        },
       });
-    })
-    .then(lineitem => res.status(201).send(lineitem))
-    .catch(next);
+      const updatedLineItem = await orderProduct.update({ quantity: req.body.quantity });
+      res.json(updatedLineItem);
+    } else {
+      res.sendStatus(403);
+    }
+  };
+
+  putOrdProd()
+    .then(null, next);
 });
 
 
