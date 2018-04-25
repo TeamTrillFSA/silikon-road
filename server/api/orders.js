@@ -20,12 +20,12 @@ router.get('/:id', (req, res, next) => {
 router.post('/', (req, res, next) => {
   const { status, userId, addressId } = req.body;
 
-  if (req.user.id !== userId) {
-    res.statusCode(403);
-  } else {
+  if (!userId || (req.user && req.user.id === userId)) {
     Order.create({ status, userId, addressId })
       .then(order => res.status(201).send(order))
       .catch(next);
+  } else {
+    res.sendStatus(403);
   }
 });
 
