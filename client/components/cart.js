@@ -1,8 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
-export const Cart = ({ order, tblWidthStyle1, tblWidthStyle2 }) => {
+export const Cart = ({ order, cartId, tblWidthStyle1, tblWidthStyle2 }) => {
+  if (!cartId) {
+    return (<div>Your cart is empty.</div>);
+  }
   return (
     <div className="cart">
       <div id="cartTable">
@@ -35,23 +39,29 @@ export const Cart = ({ order, tblWidthStyle1, tblWidthStyle2 }) => {
         </table>
       </div>
       <div id="checkoutSection">
-        <button>Proceed to Checkout</button>
+        <Link to="/checkout"><button>Proceed to Checkout</button></Link>
       </div>
     </div>
   );
 };
 
-const mapStateToProps = (state) => ({
-  order: state.user.orders && state.user.orders.length ?
-    state.user.orders[state.user.orders.length - 1]
-    : {},
-  tblWidthStyle1: {
-    width: '15%',
-  },
-  tblWidthStyle2: {
-    width: '55%',
-  },
-});
+const mapStateToProps = (state) => {
+  const userOrders = state.user.orders;
+  return {
+    order: userOrders && userOrders.length ?
+      userOrders[userOrders.length - 1]
+      : {},
+    cartId: userOrders &&
+      userOrders.length &&
+      userOrders[userOrders.length - 1].status === 'CART' ? userOrders[userOrders.length - 1].id : 0,
+    tblWidthStyle1: {
+      width: '15%',
+    },
+    tblWidthStyle2: {
+      width: '55%',
+    },
+  };
+};
 
 export default connect(mapStateToProps)(Cart);
 

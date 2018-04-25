@@ -4,8 +4,14 @@ export const getOrderOnUser = (searchOrderId, userObj) => {
 };
 
 export const getProductIdsOnOrder = order => {
-  console.log(order);
   return order.products ? order.products.map(prod => prod.id) : null;
+};
+
+export const getProductQuantitiesOnOrder = order => {
+  return order.products.length ? order.products.map(prod => prod.order_product.quantity).reduce((agg, cur) => {
+    agg += cur;
+    return agg;
+  }, 0) : null;
 };
 
 export const getProductOnUserOrder = (userObj, orderId, searchProdId) => {
