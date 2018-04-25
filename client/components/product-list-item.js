@@ -7,9 +7,9 @@ const ProductListItem = ({ product }) => {
     <div className="productListItem">
       <Link to={`/products/${product.id}`}>
         <h3>{product.name}</h3>
-        <span>Price: {product.price}</span>
+        <span className="productPrice">Price: ${product.price}</span>
         <img src={product.imageUrl} height="100" width="100" />
-        <p>Description: {product.description}</p>
+        <p>{product.description}</p>
       </Link>
     </div>
   );

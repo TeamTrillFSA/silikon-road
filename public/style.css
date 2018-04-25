@@ -68,9 +68,8 @@ td img {
   color: blue;
   background-color: #BBB;
   width: 200px;
-  height: 200px;
   margin: 25px;
-  padding: 15px;
+  padding: 5px 15px;
   box-shadow: 8px 8px 10px #CCC;
 }
 
@@ -84,4 +83,25 @@ td img {
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0; 
+}
+
+img {
+  max-width: 300px;
+}
+
+p {
+  padding: 1em;
+  background-color: white;
+  border: 1px solid black;
+}
+
+.productPrice {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 1em;
+}
+
+#cartTable {
+  background-color: rgba(255,255,255,0.5);
+  font-weight: bold;
 }

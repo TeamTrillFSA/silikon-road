@@ -32,7 +32,7 @@ export const Cart = ({ order, cartId, tblWidthStyle1, tblWidthStyle2 }) => {
                 <td>
                   <span>{product.name}</span>
                 </td>
-                <td>{product.price}</td>
+                <td>${product.price}</td>
                 <td>{product.order_product.quantity}</td>
               </tr>))}
           </tbody>
