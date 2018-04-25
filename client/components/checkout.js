@@ -7,12 +7,16 @@ import { withRouter } from 'react-router-dom';
 import { ProductList } from './product-list';
 import { editAddress, postAddressThunker, putOrderThunker } from '../store';
 
+let inputElement;
+
 const onToken = (token) => {
+  inputElement.click();
   axios.post('/auth/save-stripe-token', token)
     .then(res => {
       console.log(res.data);
     });
 };
+
 /**
  * COMPONENT
  */
@@ -65,14 +69,15 @@ export const Home = (props) => {
         </div>
         <button
           type="submit"
-        >Submit
-        </button>
+          ref={input => { inputElement = input; }}
+        />
       </form>
       <h3>Payment Information:</h3>
       <StripeCheckout
         stripeKey="pk_test_vt2tbGVU5eFuxMOOljFfZHew"
         token={onToken}
       />
+
     </div>
   );
 };
