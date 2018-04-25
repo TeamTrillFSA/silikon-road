@@ -34,14 +34,18 @@ describe('order_product routes', () => {
       const orderId = 1;
       const productId = 1;
       return request(app)
-        .post('/api/order_product')
-        .send({ price, quantity, orderId, productId })
-        .expect(201)
-        .then(res => {
-          expect(res.body.quantity).to.be.equal(1);
-          expect(res.body.orderId).to.be.equal(1);
-          expect(res.body.productId).to.be.equal(1);
-          expect(Object.keys(res.body).length).to.be.equal(6);
+        .post('/login')
+        .send({ email: 'fred@silikonroad.com', password: 'fred' })
+        .end((err, res) => {
+          return request(app).post('/api/order_product')
+            .send({ price, quantity, orderId, productId })
+            .expect(201)
+            .end((err, res) => {
+              expect(res.body.quantity).to.be.equal(1);
+              expect(res.body.orderId).to.be.equal(1);
+              expect(res.body.productId).to.be.equal(1);
+              expect(Object.keys(res.body).length).to.be.equal(6);
+            });
         });
     });
   });

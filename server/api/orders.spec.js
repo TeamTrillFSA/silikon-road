@@ -1,4 +1,5 @@
 /* global describe beforeEach it */
+/* eslint-disable no-shadow */
 
 const { expect } = require('chai');
 const request = require('supertest');
@@ -16,14 +17,19 @@ describe('Order routes', () => {
   describe('/api/orders/', () => {
     it('POST /api/orders', () => {
       return request(app)
-        .post('/api/orders')
-        .send({ user: { isAdmin: true } })
-        .expect(201)
-        .then(res => {
-          expect(res.body.status).to.be.equal('CART');
-          expect(res.body.userId).to.be.equal(null);
-          expect(res.body.addressId).to.be.equal(null);
-          expect(Object.keys(res.body).length).to.be.equal(6);
+        .post('/login')
+        .send({ email: 'fred@silikonroad.com', password: 'fred' })
+        .end((err, res) => {
+          return request(app)
+            .post('/api/orders')
+            .send({ user: { isAdmin: true } })
+            .expect(201)
+            .end((err, res) => {
+              expect(res.body.status).to.be.equal('CART');
+              expect(res.body.userId).to.be.equal(null);
+              expect(res.body.addressId).to.be.equal(null);
+              expect(Object.keys(res.body).length).to.be.equal(6);
+            });
         });
     });
   });
@@ -38,7 +44,7 @@ describe('Order routes', () => {
       return request(app)
         .get('/api/orders/1')
         .send({ user: { id: 1 } })
-        .expect(401);
+        .expect(403);
     });
   });
 });

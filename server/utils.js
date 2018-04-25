@@ -1,8 +1,7 @@
 /* SERVER SIDE */
 
 const checkConditionMiddleware = (conditionFuncs) => (req, res, next) => {
-  const finalCondition = conditionFuncs.map(conditionFunc =>
-    conditionFunc(req)).reduce((prev, curr) => prev && curr, true);
+  const finalCondition = conditionFuncs.every(conditionFunc => conditionFunc(req));
 
   if (finalCondition) {
     next();
