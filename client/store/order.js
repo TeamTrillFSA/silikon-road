@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { me } from './user';
 
 /**
  * ACTION TYPES
@@ -32,6 +33,7 @@ export const postOrderThunker = (status, userId, addressId) =>
     axios.post('/api/orders', { status, userId, addressId })
       .then(res =>
         dispatch(postOrder(res.data)))
+      .then(() => dispatch(me()))
       .catch(err => console.error(err));
 
 export const putOrderThunker = (status, orderId, addressId) =>
@@ -39,6 +41,7 @@ export const putOrderThunker = (status, orderId, addressId) =>
     axios.put(`/api/orders/${orderId}`, { status, addressId })
       .then(res =>
         dispatch(postOrder(res.data)))
+      .then(() => dispatch(me()))
       .catch(err => console.error(err));
 
 

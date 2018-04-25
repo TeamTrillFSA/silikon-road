@@ -6,6 +6,7 @@ import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { postProd_OrderThunker, postOrderThunker, signUpGuest, updateQuantityThunk, fieldEditUpdateOrderQuantity } from '../store';
 import { getOrderOnUser, getProductIdsOnOrder, getProductOnUserOrder } from '../utils';
+import history from '../history';
 
 export class productComponent extends Component {
   constructor(props) {
@@ -68,12 +69,13 @@ export class productComponent extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   const userOrders = state.user.orders;
+  const carts = userOrders ? userOrders.filter(order => (order.status === 'CART')) : {};
   return {
     product: state.products.find(prod => Number(prod.id) === Number(ownProps.match.params.id)),
     user: state.user,
     cartId: userOrders &&
             userOrders.length &&
-            userOrders[userOrders.length - 1].status === 'CART' ? userOrders[userOrders.length - 1].id : 0,
+            carts ? carts[0].id : 0,
     selectedQuantity: state.userInput.singleProduct.quantity,
   };
 };
@@ -84,6 +86,7 @@ const mapDispatchToProps = dispatch => {
       event.preventDefault();
       const quantity = Number(event.target[0].value);
       dispatch(postProd_OrderThunker(price, quantity, orderId, productId));
+      history.push('/products');
     },
     handleCreateCart(event, userId) {
       event.preventDefault();

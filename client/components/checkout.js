@@ -1,22 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import history from '../history';
 import StripeCheckout from 'react-stripe-checkout';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { ProductList } from './product-list';
-import { editAddress, postAddressThunker, putOrderThunker } from '../store';
+import { editAddress, postAddressThunker, putOrderThunker, me } from '../store';
 import { getTotalOrderValue, getOrderOnUser } from '../utils';
+
 
 let inputElement;
 
-const onToken = (token, cartId, user) => {
-  console.log(token);
-  console.log(cartId);
+const onToken = (token, cartId, user, refreshCurrentUser) => {
   inputElement.click();
   axios.post('/auth/save-stripe-token', { amount: getTotalOrderValue(getOrderOnUser(cartId, user)), token })
+    .then(() => {
+      refreshCurrentUser();
+    })
     .then(res => {
-      console.log(res.data);
+      alert('Thanks for shopping with us!');
+      history.push('/');
     });
 };
 
@@ -79,7 +83,7 @@ export const Home = (props) => {
       <StripeCheckout
         stripeKey="pk_test_vt2tbGVU5eFuxMOOljFfZHew"
         billingAddress
-        token={token => { onToken(token, props.cartId, props.user); }}
+        token={token => { onToken(token, props.cartId, props.user, props.getCurrentUser); }}
       />
 
     </div>
@@ -102,7 +106,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => ({
   handleChange(event) {
     event.preventDefault();
-    dispatch(editAddress( { [event.target.name]: event.target.value }));
+    dispatch(editAddress({ [event.target.name]: event.target.value }));
   },
   async handleSubmit(event, address, userId, orderId) {
     event.preventDefault();
@@ -111,9 +115,12 @@ const mapDispatchToProps = dispatch => ({
     const status = 'PROCESSING';
     dispatch(putOrderThunker(status, orderId, addressId));
   },
+  getCurrentUser() {
+    dispatch(me());
+  }
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Home));
 
 /**
  * PROP TYPES
