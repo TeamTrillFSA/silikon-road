@@ -23,7 +23,7 @@ describe('ProductList', () => {
   });
 
   it('includes "Price" line as span', () => {
-    expect(prodListItemWrapper.find('span').text()).to.equal('Price: 8');
+    expect(prodListItemWrapper.find('span').text()).to.equal('Price: $8');
   });
 
   it('includes "Image" line as img', () => {
@@ -31,6 +31,6 @@ describe('ProductList', () => {
   });
 
   it('includes "Description" as p', () => {
-    expect(prodListItemWrapper.find('p').text()).to.equal('Description: Product Description');
+    expect(prodListItemWrapper.find('p').text()).to.equal('Product Description');
   });
 });
