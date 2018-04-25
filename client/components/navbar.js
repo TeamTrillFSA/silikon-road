@@ -15,7 +15,7 @@ const Navbar = ({ handleClick, isLoggedIn, loggedInUsername, cartId, user }) => 
           <Link to="/">Home</Link>
           <Link to="/products">Products</Link>
           { cartId ?
-            <Link to="/cart">My Cart ({getProductQuantitiesOnOrder(getOrderOnUser(cartId, user.id))})</Link> : null
+            <Link to="/cart">My Cart ({getProductQuantitiesOnOrder(getOrderOnUser(cartId, user))})</Link> : null
           }
           {/* The navbar will show these links after you log in */}
           <a href="#" onClick={handleClick}>
