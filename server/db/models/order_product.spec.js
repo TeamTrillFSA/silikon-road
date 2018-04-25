@@ -44,5 +44,13 @@ describe('OrderProduct model (join table between Order and Product)', () => {
         quantity: 1,
       }), DatabaseError);
     });
+
+    it('throws an error if price is negative', () => {
+      return assert.isRejected(OrderProduct.create({
+        orderId: 1,
+        quantity: 1,
+        price: -1,
+      }), ValidationError);
+    });
   });
 });
