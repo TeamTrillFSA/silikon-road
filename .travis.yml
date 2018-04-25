@@ -1,28 +1,28 @@
 language: node_js
 node_js:
-  - node # uses most recent stable node version
+- node
 services:
-  - postgresql # starts up postgres
+- postgresql
 addons:
-  postgresql: '9.6' # highest available postgres version on Travis
-dist: trusty # uses trusty environment
-sudo: false # when on trusty, uses Docker containers for speed
+  postgresql: '9.6'
+dist: trusty
+sudo: false
 notifications:
   email:
-    on_success: change # default: change (only when going from broken to fixed)
-    on_failure: always # default: always (which is annoying, as it should be)
+    on_success: change
+    on_failure: always
 install:
-  - npm i -g npm@5.7.1 # delete once 5.7.X is out of "pre-release"
-  - npm ci             # faster, goes only from package-lock
+- npm i -g npm@5.7.1
+- npm ci
 before_script:
-  - psql -c 'create database "silikonroad-test";' -U postgres # remember to change this name if you change it elsewhere (e.g. package.json)
-
-# before_deploy:
-#   - npm run build-client # make the bundle
-#   - rm -rf node_modules # omit from the tarball, since we skip cleanup
-# deploy:
-#   skip_cleanup: true # prevents travis from deleting the build
-#   provider: heroku
-#   app: YOUR-HEROKU-APP-NAME-HERE # see README
-#   api_key:
-#     secure: YOUR-***ENCRYPTED***-API-KEY-HERE # see README
+- psql -c 'create database "silikonroad-test";' -U postgres
+- psql -c 'create database "silikonroad";' -U postgres
+before_deploy:
+- npm run build-client
+- rm -rf node_modules
+deploy:
+  skip_cleanup: true
+  provider: heroku
+  app: silikon-road
+  api_key:
+    secure: WmmkxwZgbv7acFGDXz5XQH0inPreAKcNEvPcA7qGhJJExPkxNkA4aoTSW2/wW7Y3ZBgq+o+FsmvWw6bKAf9dXd1CHExjo+j3d0/A3y8PJ9U/L3ckIuifjq15KYz0QNzoORIMHp+/JzBidVz0M90+u6jnt1QOEHrJ0WgrlOy05ILLg+iGNaiN65a38ywr/apVq6KCvdx2SMJu4fPgnNL4lKKgz14zNloJ+5f3quAGrEAmjiaTQLcEtaVCqCtF1NJKz7BdT4CuCL+wmNkoTrQaSF9KEkMBMXH5i+hJU1zlxwTKEAG85GR+O80Mlgb+so/28SMWTD//ySVetGmDAMnwzWc9qR0UbZyscX4E1r7rW5Vr4Y3TE00XJLJcMKjdzURbktp/XvLx7qvFhAt35LdTZ59akvU4UwHc0YLHB7z/9uMxtDFB/AhEE0cLXpLMexzdrpeDGWu9Qg8jEVAnqZn00M3KJMTh0eX3MmnhNsxET30YO3v6oXPn9f++pFY00hZOQ+u8f4R+Nu1PX2UCIs8VZkmV19xQd7BBWomlhYneOLk56aobLi8h7AtuJsojhHZmJ5N0bXv4k0Qa2orh1vaYIIa9IkEXkZhgvC10MsUwy6AP0Y1E0BB8c6CAocu/Vjl6/e4LAfJOv+jVAMBA9Z126UMNVY/I6mgHnABUZRkY6So=
