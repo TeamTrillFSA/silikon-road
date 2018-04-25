@@ -1,68 +1,78 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import StripeCheckout from 'react-stripe-checkout';
+import axios from 'axios';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { ProductList } from './product-list';
 import { editAddress, postAddressThunker, putOrderThunker } from '../store';
 
+const onToken = (token) => {
+  axios.post('/auth/save-stripe-token', token)
+    .then(res => {
+      console.log(res.data);
+    });
+};
 /**
  * COMPONENT
  */
 export const Home = (props) => {
   return (
     <div>
+      <div>
+        <h1>Checkout!</h1>
+        <h2>Your Order:</h2>
+      </div>
+      <form onSubmit={event => props.handleSubmit(event, props.address, props.userId, props.cartId)} >
         <div>
-            <h1>Checkout!</h1>
-            <h2>Your Order:</h2>
+          <h3>Address Information: (If you don't put in the right information, you don't get your products)</h3>
+          <label>
+            Street Address: 
+            <input 
+              name="street"
+              type="text"
+              onChange={props.handleChange}
+              required
+            />
+          </label>
+          <label>
+            City: 
+            <input 
+              name="city"
+              type="text"
+              onChange={props.handleChange}
+              required
+            />
+          </label>
+          <label>
+            State: 
+            <input 
+              name="state"
+              type="text"
+              onChange={props.handleChange}
+              required
+            />
+          </label>
+          <label>
+            ZIP code (only first 5): 
+            <input 
+              name="zip"
+              type="text"
+              onChange={props.handleChange}
+              required
+            />
+          </label>
         </div>
-        <form onSubmit={event => props.handleSubmit(event, props.address, props.userId, props.cartId)} >
-            <div>
-                <h3>Address Information: (If you don't put in the right information, you don't get your products)</h3>
-                <label>
-                  Street Address: 
-                  <input 
-                    name="street"
-                    type="text"
-                    onChange={props.handleChange}
-                    required
-                  />
-                </label>
-                <label>
-                  City: 
-                  <input 
-                    name="city"
-                    type="text"
-                    onChange={props.handleChange}
-                    required
-                  />
-                </label>
-                <label>
-                  State: 
-                  <input 
-                    name="state"
-                    type="text"
-                    onChange={props.handleChange}
-                    required
-                  />
-                </label>
-                <label>
-                  ZIP code (only first 5): 
-                  <input 
-                    name="zip"
-                    type="text"
-                    onChange={props.handleChange}
-                    required
-                  />
-                </label>
-            </div>
-            <div>
-                <h3>Payment Information:</h3>
-            </div>
-            <button
-              type="submit"
-            >Submit
-            </button>
-        </form>
+        <button
+          type="submit"
+        >Submit
+        </button>
+      </form>
+      <h3>Payment Information:</h3>
+      <StripeCheckout
+        stripeKey="pk_test_vt2tbGVU5eFuxMOOljFfZHew"
+        token={onToken}
+      />
     </div>
   );
 };

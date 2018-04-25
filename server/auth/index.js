@@ -1,7 +1,16 @@
 const router = require('express').Router();
 const User = require('../db/models/user');
+const stripe = require('stripe')('sk_test_tUGFJJQXGMwroQFXvIaJfz64');
 
 module.exports = router;
+
+const postStripeCharge = res => (stripeErr, stripeRes) => {
+  if (stripeErr) {
+    res.status(500).send({ error: stripeErr });
+  } else {
+    res.status(200).send({ success: stripeRes });
+  }
+};
 
 router.post('/login', (req, res, next) => {
   User.findOne({
@@ -56,4 +65,15 @@ router.get('/me', (req, res) => {
   res.json(req.user);
 });
 
+router.post('/save-stripe-token', (req, res, next) => {
+  const tokenId = req.body.id;
+  const charge = stripe.charges.create({
+    amount: 999,
+    currency: 'usd',
+    description: 'Example charge',
+    source: tokenId,
+  }, postStripeCharge(res));
+});
+
 router.use('/google', require('./google'));
+
