@@ -24,7 +24,7 @@ export class productComponent extends Component {
           <h3>Price: {product && product.price}</h3>
           <img src={product && product.imageUrl} />
           <br />
-          <p>Description: {product && product.description}</p>
+          <p>{product && product.description}</p>
           <form onSubmit={async (event) => {
             event.persist();
             if (Object.keys(user).length === 0 && user.constructor === Object) {
@@ -58,9 +58,6 @@ export class productComponent extends Component {
           </form>
         </div>
         <hr />
-        <div>
-          <h2>Reviews</h2>
-        </div>
       </div>
     );
   }
