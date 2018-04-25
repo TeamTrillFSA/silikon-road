@@ -11,7 +11,7 @@ const Navbar = ({ handleClick, isLoggedIn, loggedInUsername, cartId, user }) => 
     <nav>
       {isLoggedIn ? (
         <div>
-          <span>{ `-----${loggedInUsername}-----` }</span>
+          <span>{ loggedInUsername ? `-----${loggedInUsername}-----` : '' }</span>
           <Link to="/">Home</Link>
           <Link to="/products">Products</Link>
           { cartId ?
