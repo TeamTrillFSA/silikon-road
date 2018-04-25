@@ -66,9 +66,9 @@ router.get('/me', (req, res) => {
 });
 
 router.post('/save-stripe-token', (req, res, next) => {
-  const tokenId = req.body.id;
+  const tokenId = req.body.token.id;
   const charge = stripe.charges.create({
-    amount: 999,
+    amount: req.body.amount,
     currency: 'usd',
     description: 'Example charge',
     source: tokenId,

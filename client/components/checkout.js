@@ -6,12 +6,15 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { ProductList } from './product-list';
 import { editAddress, postAddressThunker, putOrderThunker } from '../store';
+import { getTotalOrderValue, getOrderOnUser } from '../utils';
 
 let inputElement;
 
-const onToken = (token) => {
+const onToken = (token, cartId, user) => {
+  console.log(token);
+  console.log(cartId);
   inputElement.click();
-  axios.post('/auth/save-stripe-token', token)
+  axios.post('/auth/save-stripe-token', { amount: getTotalOrderValue(getOrderOnUser(cartId, user)), token })
     .then(res => {
       console.log(res.data);
     });
@@ -75,7 +78,8 @@ export const Home = (props) => {
       <h3>Payment Information:</h3>
       <StripeCheckout
         stripeKey="pk_test_vt2tbGVU5eFuxMOOljFfZHew"
-        token={onToken}
+        billingAddress
+        token={token => { onToken(token, props.cartId, props.user); }}
       />
 
     </div>
@@ -87,6 +91,7 @@ export const Home = (props) => {
  */
 const mapStateToProps = (state) => {
   return {
+    user: state.user,
     userId: state.user.id,
     address: state.address,
     orders: state.user.orders,

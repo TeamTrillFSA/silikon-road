@@ -14,6 +14,13 @@ export const getProductQuantitiesOnOrder = order => {
   }, 0) : null;
 };
 
+export const getTotalOrderValue = order => {
+  return order.products.length ? order.products.map(prod => prod.order_product.price).reduce((agg, cur) => {
+    agg += cur;
+    return agg;
+  }, 0) : 0;
+};
+
 export const getProductOnUserOrder = (userObj, orderId, searchProdId) => {
   if (getOrderOnUser(orderId, userObj).products) {
     return getOrderOnUser(orderId, userObj).products.find(prod => prod.id === searchProdId);
